@@ -50,7 +50,7 @@ Returns the information about the current user that is logged in.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: api/users/:userId
+  * URL: api/currentUser/
   * Body: none
 
 * Successful Response when there is a logged in user
@@ -91,7 +91,7 @@ information.
 * Require Authentication: false
 * Request
   * Method: GET
-  * URL: api/users/password/userId?
+  * URL: api/login
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -157,7 +157,7 @@ user's information.
 * Require Authentication: false
 * Request
   * Method: POST
-  * URL: api/users
+  * URL: api/signup
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -287,7 +287,7 @@ Returns all the spots owned (created) by the current user.
 * Require Authentication: true
 * Request
   * Method: GET
-  * URL: api/user/:userID/owners/owenersid/spots
+  * URL: api/currentUser/spots
   * Body: none
 
 * Successful Response
@@ -327,7 +327,7 @@ Returns the details of a spot specified by its id.
 * Require Authentication: false
 * Request
   * Method: GET
-  * URL: api/spots/:id
+  * URL: api/spots/:spotId
   * Body: none
 
 * Successful Response
@@ -466,7 +466,7 @@ Create and return a new image for a spot specified by id.
 * Require proper authorization: Spot must belong to the current user
 * Request
   * Method: POST
-  * URL: api/users/:userID/spots/:spotId
+  * URL: api/spots/:spotId/images
   * Headers:
     * Content-Type: application/json
   * Body:
@@ -512,7 +512,7 @@ Updates and returns an existing spot.
 * Require proper authorization: Spot must belong to the current user
 * Request
   * Method: PUT
-  * URL: api/users/:userId/spots/spotId
+  * URL: api/spots/spotId
   * Headers:
     * Content-Type: application/json
   * Body:
