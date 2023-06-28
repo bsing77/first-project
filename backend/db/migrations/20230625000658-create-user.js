@@ -28,6 +28,14 @@ module.exports = {
         type: Sequelize.STRING.BINARY,
         allowNull: false,
       },
+      firstName:{
+        type: Sequelize.STRING(30),
+        allowNull: false,
+      },
+      lastName: {
+        type: Sequelize.STRING(30),
+        allowNull: false,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -38,10 +46,10 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
       }
-    });
+    },options);
   },
   async down(queryInterface, Sequelize) {
     options.tableName = 'Users'
-    return queryInterface.dropTable(options);
+    return queryInterface.dropTable('Users',options);
   }
 };
