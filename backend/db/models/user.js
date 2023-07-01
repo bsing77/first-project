@@ -17,21 +17,59 @@ module.exports = (sequelize, DataTypes) => {
     username: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: {
+        args: true,
+        msg: "User already exisits"
+      },
       validate: {
         len: [4,30],
         isNotEmail(value){
           if(Validator.isEmail(value)){
             throw new Error("Cannot be an email.");
           }
-        }
+        },
+        // notEmpty: {
+        //   args: true,
+        //   msg: {username: 'Username is required'}
+        // },
+       
+      }
+    },
+    firstName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        len: [3,30],
+        notEmpty: true 
+          // args: true,
+          // msg: {firstName: "First Name is required"}
+        
+      }
+    },
+    lastName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        len:[3,30],
+        notEmpty: true
+        //   args: true,
+        //   msg: 'Last Name is required'
+        // }
       }
     },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
+        // args: true,
+        // msg: {email:'User with that email already exists'}
+      // },
       validate : {
         len: [3, 256],
-        isEmail: true,
+        isEmail:  {
+          args: true,
+          msg: {email:'Invalid Email'}
+        }
       }
     },
     hashedPassword: {
@@ -40,22 +78,7 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         len: [60,60]
       }
-    
     },
-    firstName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        len: [3,30]
-      }
-    },
-    lastName: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        len:[3,30]
-      }
-    }
   }, {
     sequelize,
     modelName: 'User',
