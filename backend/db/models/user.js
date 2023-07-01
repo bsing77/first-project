@@ -28,10 +28,10 @@ module.exports = (sequelize, DataTypes) => {
             throw new Error("Cannot be an email.");
           }
         },
-        // notEmpty: {
-        //   args: true,
-        //   msg: {username: 'Username is required'}
-        // },
+        notEmpty: {
+          args: true,
+          msg: {username: 'Username is required'}
+        },
        
       }
     },
@@ -40,21 +40,22 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       validate: {
         len: [3,30],
-        notEmpty: true 
-          // args: true,
-          // msg: {firstName: "First Name is required"}
+      notEmpty: {
+          args: true,
+          msg: {firstName: "First Name is required"}
         
       }
+    }
     },
     lastName: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         len:[3,30],
-        notEmpty: true
-        //   args: true,
-        //   msg: 'Last Name is required'
-        // }
+        notEmpty: {
+          args: true,
+          msg: 'Last Name is required'
+        }
       }
     },
     email: {

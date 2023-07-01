@@ -12,42 +12,33 @@ const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
 
 const validateSignup = [
-    // check('email')
-    //   .exists({ checkFalsy: true })
-    //   .isEmail()
-    //   .withMessage("Please provide valid email"),
-    // check('username')
-    //   .exists({ checkFalsy: true })
-    //   .isLength() //{ min: 4 }
-    //   .custom( async value => {
-    //     if(value.length < 6){
-    //       throw new Error("Username is required");
+    check('email')
+      .exists({ checkFalsy: true })
+      .isEmail()
+      .withMessage("Invalid email"),
+    check('username')
+      .exists({ checkFalsy: true })
+      .isLength() //{ min: 4 }
+      .custom( async value => {
+        if(value.length < 6){
+          throw new Error("Username is required");
           
-      //   }
-      // }),
-    // check('username')
-    //   .not()
-    //   .isEmail()
-    //   .withMessage('Username cannot be an email.'),
-    // check('username')
-    //   // .exists
-    //   .custsom (async value => {
-    //     const existingUser = await User.findByEmail(value);
-    //     if (existingUser) {
-    //       // Will use the below as the error message
-    //       throw new Error('A user already exists with this e-mail address');
-    //     }
-    //     }),
+        }
+      }),
+    check('username')
+      .not()
+      .isEmail()
+      .withMessage('Username cannot be an email.'),
     check('password')
       .exists({ checkFalsy: true })
       .isLength({ min: 6 })
       .withMessage('Password must be 6 characters or more.'),
-    //  check('firstName')
-    //   .exists({checkFalsy: true})
-    //   .withMessage("First Name is requried"),
-    // check('lastName')
-    //   .exists({checkFalsy: true})
-    //   .withMessage('Last name is required'),
+     check('firstName')
+      .exists({checkFalsy: true})
+      .withMessage("First Name is requried"),
+    check('lastName')
+      .exists({checkFalsy: true})
+      .withMessage('Last Name is required'),
     handleValidationErrors
   ];
 
@@ -58,25 +49,25 @@ router.post(
       const { email,firstName, lastName, password, username,  } = req.body;
       const hashedPassword = bcrypt.hashSync(password);
 
-      if(!Validator.isEmail(email)){
-        res.statusCode = 400;
-        return res.json({message: "Bad Request", errors: {email: "Invalid email"}})
-      };
+      // if(!Validator.isEmail(email)){
+      //   res.statusCode = 400;
+      //   return res.json({message: "Bad Request", errors: {email: "Invalid email"}})
+      // };
 
-      if( !username ){
-        res.statusCode = 400; 
-        return res.json({message: 'Bad Request', errors: {username: "Username is required"}})
-      };
+      // if( !username ){
+      //   res.statusCode = 400; 
+      //   return res.json({message: 'Bad Request', errors: {username: "Username is required"}})
+      // };
 
-      if(!firstName || firstName.isLength < 4){
-        res.statusCode = 400;
-        res.json({message: 'Bad Request', errors : { firstName: 'First Name is required'}})
-      };
+      // if(!firstName || firstName.isLength < 4){
+      //   res.statusCode = 400;
+      //   res.json({message: 'Bad Request', errors : { firstName: 'First Name is required'}})
+      // };
 
-      if(!lastName || lastName.length < 4){
-        res.statusCode = 400; 
-        res.json({message: 'Bad Request', errors: { lastName: "Last Name is required"}})
-      };
+      // if(!lastName || lastName.length < 4){
+      //   res.statusCode = 400; 
+      //   res.json({message: 'Bad Request', errors: { lastName: "Last Name is required"}})
+      // };
 
       const currUserByUsername = await User.findOne({where: {
         username: username
