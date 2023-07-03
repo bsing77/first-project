@@ -98,20 +98,24 @@ const validateCreateSpot = [
       let spotArray = []
       for(let i = 0; i< spots.length; i++){
           let spot = spots[i];
-          let {ownerId,address,city,state,country,lat,lng,name,description,price} = spot; 
+          let {id,ownerId,address,city,state,country,lat,lng,name,description,price, createdAt, updatedAt} = spot; 
             let image = await SpotImage.findOne({
                 where: {spotId: spot.id , preview: true},
                 
             })
           const newSpot = {
-              ownerId,address,city,state,country,lat,lng,name,description,price,
+              id,ownerId,address,city,state,country,lat,lng,name,description,price,
+              createdAt,
+              updatedAt,
               avgStarRating: 4.5,
-              previewImage: image.url
+              previewImage: image.url,
+              createdAt,
+            
           }
           spotArray.push(newSpot)
       }
       if(spots) {
-          res.json(spotArray)
+          res.json( {Spots : spotArray})
       }
   
   
