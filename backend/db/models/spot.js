@@ -77,7 +77,7 @@ module.exports = (sequelize, DataTypes) => {
   },
     lat: {
       type: {
-        args: DataTypes.DECIMAL(9,6),
+        args: DataTypes.DECIMAL(9,7),
         msg: 'Latitude is not valid'
     },
     allowNull: {
@@ -93,7 +93,7 @@ module.exports = (sequelize, DataTypes) => {
   },
     lng: {
      type: {
-      args: DataTypes.DECIMAL(9,6),
+      args: DataTypes.DECIMAL(9,7),
       msg: 'Longitude is not valid'
      },
      allowNull: {
@@ -111,7 +111,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
-        notEmpty: true,
+        notEmpty: { 
+          args:true,
+        msg: "Name must be less than 50 characters"},
         len: {
           args: [3,49],
           msg: "Name must be less than 50 characters"
