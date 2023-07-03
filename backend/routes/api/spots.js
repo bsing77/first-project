@@ -67,7 +67,7 @@ const validateCreateSpot = [
     const{address,city,state,country,lat,lng,name,description,price} = req.body
    
     const spot = await Spot.create({ownerId:req.user.id,address,city,state,country,lat,lng,name,description,price})
-
+    
     res.json(spot)
   })
 
@@ -77,9 +77,20 @@ const validateCreateSpot = [
 
   router.get('/', async (req,res) => {
     const spots =  await Spot.findAll();
+    let spotArray = []
+    for(let i = 0; i< spots.length; i++){
+        let spot = spots[i];
+        let {ownerId,address,city,state,country,lat,lng,name,description,price} = spot; 
 
+        const newSpot = {
+            ownerId,address,city,state,country,lat,lng,name,description,price,
+            avgStarRating: 4.5,
+            previewImage: "url"
+        }
+        spotArray.push(newSpot)
+    }
     if(spots) {
-        res.json([...spots])
+        res.json(spotArray)
     }
 
   
