@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const { Validator } = require('sequelize')
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
-const { User, Spot, SpotImage } = require('../../db/models');
+const { User, Spot, SpotImage, Review} = require('../../db/models');
 
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
@@ -60,9 +60,28 @@ const validateCreateSpot = [
     check('price')
       .exists({checkFalsy: true})
       .withMessage('Price per day is required'),
+    
     handleValidationErrors
   ];
 
+  const validateReview = [
+    check('review')
+      .exists({checkFalsy: true})
+      .withMessage('Review text is required'),
+    check('stars')
+      .exists({checkFalsy: true})
+      .withMessage('Stars must be an integer from 1 to 5'),
+    check('stars')
+      .exists({checkFalsy: true})
+      .custom( async value => {
+        if(value < 1 || value > 5){
+          throw new Error('Stars must be an integer from 1 to 5')
+        }
+      }),
+
+    handleValidationErrors
+  ];
+  // Create a spot image
   router.post('/:spotId/images', requireAuth, async (req,res) => {
     const {url,preview} = req.body; 
     const {spotId} = req.params.spotId
@@ -72,7 +91,7 @@ const validateCreateSpot = [
     if(!spot){
 
         res.statusCode = 404;
-        res.json({message: 'Spot couldn"t be found'})
+        res.json({message: 'Spot couldn\'t be found'})
     };
 
     const spotImage = await SpotImage.create({spotId:spot.id,url,preview});
@@ -80,8 +99,27 @@ const validateCreateSpot = [
     const image = await SpotImage.scope('defaultScope').findOne({where: {id: spotImage.id}})
     res.json(image);
   });
+  // Create a Review for a spot
+  router.post('/:spotId/reviews',requireAuth,validateReview, async (req,res) => {
+      const spotId = req.params.spotId;
+      const spot = await Spot.findOne({where: {id: spotId}});
+      const {review, stars} = req.body; 
 
-  
+      if(!spot){
+        res.statusCode = 404; 
+        res.json({message: 'Spot couldn\'t be found'})
+      };
+       const userReview = await Review.findOne({where: {userId: req.user.id, spotId: spotId}});
+       if(userReview){
+        res.statusCode = 403; 
+        res.json({message: 'User already has a review for this spot'})
+       };
+
+       const currReview = await Review.create({userId:req.user.id,spotId: spotId,review,stars});
+       res.json(currReview); 
+  })
+
+    //  Create a Spot
   router.post( "/", requireAuth, validateCreateSpot, async(req,res) => {
       const{address,city,state,country,lat,lng,name,description,price} = req.body
       
@@ -90,7 +128,7 @@ const validateCreateSpot = [
       res.json(spot)
     });
     
-    
+    // Get spots by current user
     router.get("/current",requireAuth, async (req,res) => {
       const spots = await Spot.findAll({ where: {
           ownerId: req.user.id
@@ -131,7 +169,7 @@ const validateCreateSpot = [
 
 
 
-
+    // Get All Spots
   router.get('/', async (req,res) => {
     const spots =  await Spot.findAll();
     let spotArray = []
