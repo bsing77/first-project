@@ -171,22 +171,33 @@ const validateCreateSpot = [
 
     // Get All Spots
   router.get('/', async (req,res) => {
-    const spots =  await Spot.findAll();
-    let spotArray = []
-    for(let i = 0; i< spots.length; i++){
-        let spot = spots[i];
-        let {ownerId,address,city,state,country,lat,lng,name,description,price} = spot; 
-
-        const newSpot = {
-            ownerId,address,city,state,country,lat,lng,name,description,price,
-            avgStarRating: 4.5,
-            previewImage: "url"
-        }
-        spotArray.push(newSpot)
-    }
-    if(spots) {
-        res.json(spotArray)
-    }
+    const spots =  await Spot.findAll({include:{
+      model: SpotImage,
+      attributes: ['url']
+  },});
+  let spotArray = []
+      
+      for(let i = 0; i< spots.length; i++){
+          let spot = spots[i];
+          let {id,ownerId,address,city,state,country,lat,lng,name,description,price, createdAt, updatedAt} = spot; 
+            let image = await SpotImage.findOne({
+                where: {spotId: id , preview: true}, 
+                attributes: ['url']
+                
+            })
+            
+          const newSpot = {
+              id,ownerId,address,city,state,country,lat,lng,name,description,price,
+              createdAt,
+              updatedAt,
+              avgStarRating: 4.5,
+              preview: image.url
+          }
+          spotArray.push(newSpot)
+      }
+      if(spots) {
+          res.json( {Spots : spotArray})
+      }
 
   
   })

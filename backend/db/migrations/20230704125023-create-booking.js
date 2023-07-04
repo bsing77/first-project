@@ -1,8 +1,12 @@
 'use strict';
 /** @type {import('sequelize-cli').Migration} */
+let options = {};
+if(process.env.NODE_ENV === "production"){
+  options.schema = process.env.SCHEMA;
+}
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Bookings', {
+   return await queryInterface.createTable('Bookings', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -49,6 +53,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Bookings');
+   return await queryInterface.dropTable('Bookings', options);
   }
 };
