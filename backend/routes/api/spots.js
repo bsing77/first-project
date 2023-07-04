@@ -67,7 +67,7 @@ const validateCreateSpot = [
     const {url,preview} = req.body; 
     const {spotId} = req.params.spotId
     const spot = await Spot.findOne({
-        where: {ownerId: req.user.id}
+        where: {ownerId: req.user.id, id: req.params.spotId}
     })
     if(!spot){
 
@@ -76,7 +76,7 @@ const validateCreateSpot = [
     };
 
     const spotImage = await SpotImage.create({spotId:spot.id,url,preview});
-     console.log(spotImage.id)
+    //  console.log(spotImage.id)
     const image = await SpotImage.scope('defaultScope').findOne({where: {id: spotImage.id}})
     res.json(image);
   });
@@ -94,23 +94,30 @@ const validateCreateSpot = [
     router.get("/current",requireAuth, async (req,res) => {
       const spots = await Spot.findAll({ where: {
           ownerId: req.user.id
-      }});
+        },
+        include:{
+            model: SpotImage,
+            attributes: ['url']
+        },
+        
+    });
       let spotArray = []
+      
       for(let i = 0; i< spots.length; i++){
           let spot = spots[i];
           let {id,ownerId,address,city,state,country,lat,lng,name,description,price, createdAt, updatedAt} = spot; 
             let image = await SpotImage.findOne({
-                where: {spotId: spot.id , preview: true},
+                where: {spotId: id , preview: true}, 
+                attributes: ['url']
                 
             })
+            
           const newSpot = {
               id,ownerId,address,city,state,country,lat,lng,name,description,price,
               createdAt,
               updatedAt,
               avgStarRating: 4.5,
-              previewImage: image.url,
-              createdAt,
-            
+              preview: image.url
           }
           spotArray.push(newSpot)
       }
