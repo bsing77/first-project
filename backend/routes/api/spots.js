@@ -263,6 +263,27 @@ const validateCreateSpot = [
       }
 
   
+  });
+
+  router.delete('/:spotId', requireAuth, async (req,res) => {
+    const spotId = req.params.spotId;
+
+    const spot = await Spot.findOne({where: {id: spotId}});
+
+
+
+    if(!spot){
+      res.statusCode = 404;
+      res.json({message: 'Spot couldn\'t be found'}); 
+    };
+
+    if(req.user.id !== spot.ownerId){
+      res.statusCode = 403;
+      res.json({message: 'Forbidden'});
+    }
+
+    await spot.destroy(); 
+    res.json({message: 'Successfully deleted'})
   })
 
 
