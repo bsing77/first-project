@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       );
       Spot.hasMany(
         models.SpotImage,
-        {foreignKey: 'spotId'}
+        {as: 'previewImages',foreignKey: 'spotId'}
       );
       Spot.hasMany(
         models.Review,

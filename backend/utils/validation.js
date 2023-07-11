@@ -9,7 +9,7 @@ const handleValidationErrors = (req, _res, next) => {
     const errors = {};
     validationErrors
       .array()
-      .forEach(error => errors[error.path] = error.msg);
+      .forEach(error => errors[error.path] = error.msg); 
      
      _res.statusCode = 400; 
       _res.json({message: 'Bad Request', errors})

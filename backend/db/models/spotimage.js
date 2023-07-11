@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       SpotImage.belongsTo(
         models.Spot,
-        {foreignKey: 'spotId', onDelete: 'CASCADE', hooks: true}
+        { as:'previewImages',foreignKey: 'spotId'}
       )
     }
     
@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.INTEGER,
       allowNull: false,
       references: {model:'Spot', key: 'id'},
-      onDelete: 'CASCADE'
+      
     },
     url:{
       type: DataTypes.STRING,
@@ -47,12 +47,18 @@ module.exports = (sequelize, DataTypes) => {
           where: {name},
           include: [{model: Spot}]
         }
+      },
+      includeSpotId: {
+       attributes: {
+        include: ['id','spotId', 'url','preview']
+       }
       }
     }
       
   }
     
   });
+  
   return SpotImage;
   
 };
