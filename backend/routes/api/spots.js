@@ -121,19 +121,26 @@ const validateCreateSpot = [
     const spotId = req.params.spotId;
     const spot = await Spot.findOne({where: {id: spotId}});
     const {review, stars} = req.body; 
-    
+    const userReview = await Review.findOne({where: {userId: req.user.id, spotId: spotId}});
+    console.log(spot.ownerId);
     if(!spot){
       res.statusCode = 404; 
       res.json({message: 'Spot couldn\'t be found'})
-    };
-    const userReview = await Review.findOne({where: {userId: req.user.id, spotId: spotId}});
-    if(userReview){
+    } 
+    else if(spot.ownerId === req.user.id){
+      
+      res.statusCode = 403; 
+      res.json({message: 'Forbidden'})
+    }
+     else if(userReview){
       res.statusCode = 403; 
       res.json({message: 'User already has a review for this spot'})
-    };
+    } else {
+
+      const currReview = await Review.create({userId:req.user.id,spotId: parseInt(req.params.spotId),review,stars});
+       res.json(currReview);  
+    }
     
-    const currReview = await Review.create({userId:req.user.id,spotId: parseInt(req.params.spotId),review,stars});
-    res.json(currReview); 
   })
 
   // Create a booking from a pot based on the spot's id

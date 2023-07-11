@@ -12,12 +12,23 @@ const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
 
 router.delete('/:imageId', requireAuth, async (req,res) => {
-    const revImage =  await ReviewImage.findOne({where: {id: req.params.imageId}});
-
-    if(revImage.id !== req.params.imageId){
+    const imageId = req.params.imageId
+    const revImage =  await ReviewImage.scope(null).findOne({where: {id: imageId}});
+    const currReview = await Review.findOne({where: {id: revImage.reviewId}});
+    if(!revImage){
         res.statusCode = 404; 
         res.json({ message: 'Review Image couldn\'t be found'});
+        console.log(revImage);
     }
+    else if (currReview.userId !== req.user.id){
+        res.statusCode = 403; 
+        res.json({message: 'Forbidden'});
+    }
+    else {
+        await revImage.destroy(); 
+        res.json({message: 'Successfully deleted'});
+    }
+    res.json(revImage)
 })
 
 
