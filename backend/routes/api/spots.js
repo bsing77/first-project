@@ -91,20 +91,20 @@ const validateCreateSpot = [
     const spot = await Spot.findOne({
       where: {id: req.params.spotId}
     });
+    const oldPreviewImage = await SpotImage.findOne({where: {spotId: req.params.spotId, preview: true}});
 
     if(!spot){
       
       res.statusCode = 404;
       res.json({message: 'Spot couldn\'t be found'})
-    };
-
-    if(spot.ownerId !== req.user.id){
-      res.statusCode = 403;
-      res.json({message: 'Forbidden'})
     }
-    const oldPreviewImage = await SpotImage.findOne({where: {spotId: req.params.spotId, preview: true}});
 
-    if(!oldPreviewImage){
+    else if(spot.ownerId !== req.user.id){
+      res.statusCode = 403;
+      res.json({message: 'Forbidden'});
+    }
+
+     else if(!oldPreviewImage){
       const spotImage = await SpotImage.create({spotId:spot.id,url,preview});
       //  console.log(spotImage.id)
       const image = await SpotImage.scope('defaultScope').findOne({where: {id: spotImage.id}})

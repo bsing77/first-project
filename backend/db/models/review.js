@@ -29,13 +29,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {model:'Spot', key: 'id'},
-      onDelete: 'CASCADE'
+      // onDelete: 'CASCADE'
       },
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {model: 'User', key: 'id'},
-      onDelete: 'CASCADE'
+      // onDelete: 'CASCADE'
     },
     review: {
       type:DataTypes.STRING,

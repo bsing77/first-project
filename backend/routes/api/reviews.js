@@ -69,14 +69,16 @@ router.put('/:reviewId', requireAuth, validateReview, async (req,res) => {
     if(!oldReview){
         res.statusCode = 404; 
         res.json({message: 'Review could\'t be found'});
-    };
-    if(oldReview.userId !== req.user.id){
+    }
+    else if(oldReview.userId !== req.user.id){
         res.statusCode = 403; 
         res.json({message: 'Forbidden'})
+    } else {
+
+        await oldReview.update({review, stars});
+        res.json(oldReview);
     }
-    await oldReview.update({review, stars});
-    res.json(oldReview)
-})
+});
 
 
 // Get Reviews of Current User'
@@ -96,7 +98,7 @@ router.get('/current', requireAuth, async (req,res) => {
             
         }
     ]
-    })
+    });
 
     // for( let i = 0; i < reviews.length; i++){
     //     let review = reviews[i];
@@ -140,7 +142,25 @@ router.get('/current', requireAuth, async (req,res) => {
 
     // console.log (reviews.preiveiwImages.url);
     res.json({Reviews:newReviews })
-})
+});
+
+router.delete('/:reviewId', requireAuth, async (req,res) => {
+    const review = await Review.findOne({where: {id: req.params.reviewId}});
+
+    if (!review){
+        res.statusCode = 404; 
+        res.json({message: 'Review couldn\'t be found'});
+
+    } 
+    else if (review.userId !== req.user.id){
+        res.statusCode = 403; 
+        res.json({message: 'Forbidden'});
+    }
+        else {
+            await review.destroy();
+            res.json({message: 'Successfully deleted'})
+        };
+});
 
 
 
