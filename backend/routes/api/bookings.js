@@ -11,6 +11,48 @@ const { handleValidationErrors } = require('../../utils/validation');
 
 const router = express.Router();
 
+// Edit a booking
+
+router.put('/:bookingId', requireAuth, async (req,res) => {
+    const booking = await Booking.scope(null).findOne({where: {id: req.params.bookingId}});
+    const {id, spotId, userId,startDate, endDate, createdAt, updatedAt} = req.body;
+    const today = Date.now();
+    console.log(today)
+     if(!booking){
+      res.statusCode = 404; 
+      res.json({ message: 'Booking couldn\'t be found'});
+
+    }
+      else if(booking.userId !== req.user.id){
+        res.statusCode = 403; 
+        res.json({message: 'Forbidden'});
+    } else if (Date.parse(booking.startDate) <= today ){
+      res.statusCode = 403; 
+      res.json({message:'Past bookings can\'t be modified'});
+    }
+    else if(Date.parse(startDate) > Date.parse(endDate)){
+        res.satusCode = 400;
+        res.json({message:" Bad Request", errors:{ endDate: 'endDate cannot be on or before startDate'}});
+      } 
+        else if(Date.parse(startDate) >= Date.parse(booking.startDate) && Date.parse(startDate) <= Date.parse(booking.endDate) &&  Date.parse(endDate) >= Date.parse(booking.startDate) && Date.parse(endDate) <= Date.parse(booking.endDate) ){
+        res.statusCode = 403; 
+            res.json({message: 'Sorry, this spot is already booked for the specified dates', errors: {startDate:'Start date conflicts with an existing booking', endDate: 'End date conflicts with an existing booking'}})
+    }
+       else if(Date.parse(startDate) >= Date.parse(booking.startDate) && Date.parse(startDate) <= Date.parse(booking.endDate)){
+            res.statusCode = 400; 
+            res.json({message: 'Sorry this spot is already booked for the specified dates', errors: {startDate: 'Start date conflicts with an existing booking'}})
+    }
+     else if(Date.parse(endDate) >= Date.parse(booking.startDate) && Date.parse(endDate) <= Date.parse(booking.endDate)){
+            res.statusCode = 403; 
+            res.json({message: 'Sorry this spot is already booked for the specified dates', errors: { endDate: 'End date conflicts with an existing booking'}})
+    } else {
+      const updatedBooking = await booking.update({id, spotId,userId,startDate, endDate, createdAt, updatedAt: new Date('CURRENT_TIMESTAMP')}) 
+        res.json(updatedBooking);
+    }
+         
+});
+
+// Get all bookings by current user
 router.get('/current', requireAuth, async (req,res) => {
     const bookings = await Booking.scope(null).findAll({where: {userId: req.user.id },
     include :  {

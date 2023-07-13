@@ -173,7 +173,7 @@ const validateCreateSpot = [
     }
     else if(Date.parse(startDate) > Date.parse(endDate)){
       res.satusCode = 400;
-      res.json({message:" Bad Request", errors:{ startDate: 'startDate cannot be after endDate'}});
+      res.json({message:" Bad Request", errors:{ endDate: 'endDate cannot be on or before startDate'}});
     }
     else {
       
@@ -442,7 +442,7 @@ router.post( "/", requireAuth, validateCreateSpot, async(req,res) => {
               createdAt,
               updatedAt,
               avgStarRating: avgStars,
-              preview: image.url
+              preview: spot.previewImages[0].url
           }
           spotArray.push(newSpot)
       }
