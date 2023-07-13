@@ -39,21 +39,8 @@ module.exports = (sequelize, DataTypes) => {
     defaultScope: { 
       attributes: { 
           exclude: [ "spotId", "createdAt", "updatedAt" ] 
-      },
-    scope: {
-      includeSpotName (name){
-        const {Spot} = require('../models');
-        return {
-          where: {name},
-          include: [{model: Spot}]
-        }
-      },
-      includeSpotId: {
-       attributes: {
-        include: ['id','spotId', 'url','preview']
-       }
       }
-    }
+    
       
   }
     

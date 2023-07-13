@@ -16,15 +16,15 @@ module.exports = (sequelize, DataTypes) => {
       );
       Spot.hasMany(
         models.SpotImage,
-        {as: 'previewImages',foreignKey: 'spotId'}
+        {as: 'previewImages',foreignKey: 'spotId', onDelete: 'CASCADE'}
       );
       Spot.hasMany(
         models.Review,
-        {foreignKey: 'spotId'}
+        {foreignKey: 'spotId', onDelete: 'CASCADE'}
       );
       Spot.hasMany(
         models.Booking,
-        {foreignKey: 'spotId'}
+        {foreignKey: 'spotId', onDelete: 'CASCADE'}
       )
     }
 
@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
       type:DataTypes.INTEGER,
       allowNull: false,
       references: {model:'User', key: 'id'},
-      onDelete: 'CASCADE'
+      // onDelete: 'CASCADE'
     },
     address: {
       type:DataTypes.STRING,

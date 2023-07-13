@@ -12,7 +12,7 @@ const { handleValidationErrors } = require('../../utils/validation');
 const router = express.Router();
 
 router.get('/current', requireAuth, async (req,res) => {
-    const bookings = await Booking.findAll({where: {userId: req.user.id },
+    const bookings = await Booking.scope(null).findAll({where: {userId: req.user.id },
     include :  {
         model: Spot,
         attributes: ['id','ownerId','address','city','state','country','lat','lng','name','price',],
