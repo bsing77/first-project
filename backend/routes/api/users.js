@@ -16,15 +16,7 @@ const validateSignup = [
       .exists({ checkFalsy: true })
       .isEmail()
       .withMessage("Invalid email"),
-    check('username')
-      .exists({ checkFalsy: true })
-      .isLength() //{ min: 4 }
-      .custom( async value => {
-        if(value.length < 6){
-          throw new Error("Username is required");
-          
-        }
-      }),
+    
     check('username')
       .exists({checkFalsy: true})
       .custom(async value => {

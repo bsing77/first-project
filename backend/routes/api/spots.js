@@ -300,13 +300,17 @@ router.post( "/", requireAuth, validateCreateSpot, async(req,res) => {
       if(!spot){
         res.statusCode = 404; 
         res.json({message: 'Spot couldn\'t be found'});
+      } else if (spot.ownerId !== req.user.id)  {
+        res.statusCode = 403; 
+        res.json({message: 'Fobidden'})
       } else {
 
         const currSpot = await spot.update({id,ownerId,address,city,state,country,lat,lng,name,description,price,createdAt, updatedAt: new Date("CURRENT_TIMESTAMP")});
   
         res.json(currSpot)
-      }
-    })
+      } 
+      
+    });
 
     // Get spots by current user
     router.get("/current",requireAuth, async (req,res) => {
@@ -582,15 +586,15 @@ router.post( "/", requireAuth, validateCreateSpot, async(req,res) => {
       attributes: ['url']
       
     })
+    const reviewStar =  await Review.sum('stars',{where: {spotId : spot.id}})
+          // console.log(reviewStar)
+          
+          const totalStars = await Review.count({where: {spotId: spot.id}})
+          // console.log(totalStars)
+          const avgStars = reviewStar/totalStars
     
     if(!image) {
 
-      const reviewStar =  await Review.sum('stars',{where: {spotId : spot.id}})
-            // console.log(reviewStar)
-            
-            const totalStars = await Review.count({where: {spotId: spot.id}})
-            // console.log(totalStars)
-            const avgStars = reviewStar/totalStars
             
           const newSpot = {
               id,ownerId,address,city,state,country,lat,lng,name,description,price,
@@ -603,12 +607,12 @@ router.post( "/", requireAuth, validateCreateSpot, async(req,res) => {
        
     } else {
 
-      const reviewStar =  await Review.sum('stars',{where: {spotId : spot.id}})
-      // console.log(reviewStar)
+      // const reviewStar =  await Review.sum('stars',{where: {spotId : spot.id}})
+      // // console.log(reviewStar)
       
-      const totalStars = await Review.count({where: {spotId: spot.id}})
-      // console.log(totalStars)
-      const avgStars = reviewStar/totalStars
+      // const totalStars = await Review.count({where: {spotId: spot.id}})
+      // // console.log(totalStars)
+      // const avgStars = reviewStar/totalStars
       
     const newSpot = {
         id,ownerId,address,city,state,country,lat,lng,name,description,price,
