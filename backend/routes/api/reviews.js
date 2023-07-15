@@ -17,6 +17,13 @@ const validateReview = [
     check('review')
       .exists({checkFalsy: true})
       .withMessage('Review text is required'),
+    check('review')
+      .exists({checkFalsy: true})
+      .custom(async value => {
+        if(value.trim().length === 0){
+            throw new Error('Review text is required')
+        }
+      }), 
     check('stars')
       .exists({checkFalsy: true})
       .withMessage('Stars must be an integer from 1 to 5'),
@@ -33,32 +40,37 @@ const validateReview = [
 // Create an Image for a reivew
 router.post('/:reviewId/images', requireAuth, async (req,res) => {
     const reviewId = req.params.reviewId; 
+    console.log(reviewId)
     const {url} = req.body; 
 
     const review = await Review.findOne({where:{id: reviewId} });
-
-    if(!review){
-        res.statusCode = 404; 
-        res.json({message: 'Review couldn\'t be found'});
-    };
-    if(req.user.id !== review.userId){
-        res.statusCode = 403; 
-        res.json({message: 'Forbbiden'})
-    };
     
-    const imageCount = await ReviewImage.count('url', {where: { reviewId: review.id} })
-    if(imageCount > 10 ){
-        res.statusCode = 403; 
-        res.json({message: 'Maximum number of images for this resource was reached'})
+    if(!review){
+      res.statusCode = 404; 
+      res.json({message: 'Review couldn\'t be found'});
     }
-    const rImage = await ReviewImage.create({reviewId: review.id, url});
-    // console.log(rImage)
-    const image = await ReviewImage.scope('defaultScope').findOne({where:{ id: rImage.id}});
+    else if(req.user.id !== review.userId){
+      res.statusCode = 403; 
+      res.json({message: 'Forbbiden'})
+    } else {
+      const imageCount = await ReviewImage.count( {where: { reviewId: review.id} });
+      console.log(imageCount);
+     if(imageCount >= 10 ){
+      res.statusCode = 403; 
+      res.json({message: 'Maximum number of images for this resource was reached'}) }
+      else {
+        const rImage = await ReviewImage.create({reviewId: review.id, url});
+        // console.log(rImage)
+        const image = await ReviewImage.scope('defaultScope').findOne({where:{ id: rImage.id}});
+        res.json(image)
+
+      }
+    }
+    
 
    
 
 
-    res.json(image)
 })
 
 // Edit a review

@@ -15,9 +15,23 @@ const validateLogin = [
       .exists({ checkFalsy: true })
       .notEmpty()
       .withMessage('Email or username is required.'),
+    check('credential')
+      .exists({checkFalsy: true})
+      .custom(async value => {
+        if(value.trim().length === 0){
+            throw new Error('Email or username is required')
+        }
+      }), 
     check('password')
       .exists({ checkFalsy: true })
       .withMessage('Password is required.'),
+     check('password')
+      .exists({checkFalsy: true})
+      .custom(async value => {
+        if(value.trim().length === 0){
+            throw new Error('Password is required')
+        }
+      }), 
     handleValidationErrors
   ];
 

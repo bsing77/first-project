@@ -1,7 +1,7 @@
 const express = require('express');
 
 const bcrypt = require('bcryptjs');
-const { Validator } = require('sequelize')
+const { Validator, Op } = require('sequelize')
 
 const { setTokenCookie, requireAuth } = require('../../utils/auth');
 const { User, Spot, SpotImage, Review, ReviewImage, Booking, } = require('../../db/models');
@@ -15,15 +15,43 @@ const validateCreateSpot = [
     check('address')
       .exists({ checkFalsy: true })
       .withMessage("Street address is required"),
+    check('address')
+      .exists({checkFalsy: true})
+      .custom(async value => {
+        if(value.trim().length === 0){
+            throw new Error('Street address is required')
+        }
+      }), 
     check('city')
       .exists({ checkFalsy: true })
       .withMessage('City is required'),
+    check('city')
+      .exists({checkFalsy: true})
+      .custom(async value => {
+        if(value.trim().length === 0){
+            throw new Error('City is required')
+        }
+      }), 
     check('state')
       .exists({checkFalsy: true})
       .withMessage('State is required'),
+  check('state')
+      .exists({checkFalsy: true})
+      .custom(async value => {
+        if(value.trim().length === 0){
+            throw new Error('State is required')
+        }
+      }),      
     check('country')
       .exists({ checkFalsy: true })
       .withMessage('Country is required'),
+    check('country')
+      .exists({checkFalsy: true})
+      .custom(async value => {
+        if(value.trim().length === 0){
+            throw new Error('Country is required')
+        }
+      }), 
      check('lat')
       .exists({checkFalsy: true})
       .isDecimal()
@@ -54,9 +82,23 @@ const validateCreateSpot = [
       .exists({checkFalsy: true})
       .notEmpty()
       .withMessage("Name is required"),
+     check('name')
+      .exists({checkFalsy: true})
+      .custom(async value => {
+        if(value.trim().length === 0){
+            throw new Error('Name is required')
+        }
+      }), 
     check('description')
       .exists({checkFalsy: true})
       .withMessage('Description is required'),
+    check('description')
+      .exists({checkFalsy: true})
+      .custom(async value => {
+        if(value.trim().length === 0){
+            throw new Error('Description is required')
+        }
+      }), 
     check('price')
       .exists({checkFalsy: true})
       .withMessage('Price per day is required'),
@@ -68,6 +110,13 @@ const validateCreateSpot = [
     check('review')
       .exists({checkFalsy: true})
       .withMessage('Review text is required'),
+    check('review')
+      .exists({checkFalsy: true})
+      .custom(async value => {
+        if(value.trim().length === 0){
+            throw new Error('Review text is required')
+        }
+      }), 
     check('stars')
       .exists({checkFalsy: true})
       .withMessage('Stars must be an integer from 1 to 5'),
@@ -102,9 +151,12 @@ const validateCreateSpot = [
     const {url,preview} = req.body; 
     const {spotId} = req.params.spotId
     const spot = await Spot.findOne({
-      where: {id: req.params.spotId}
+      where: {id: req.params.spotId},
+      
     });
-    const oldPreviewImage = await SpotImage.findOne({where: {spotId: req.params.spotId, preview: true}});
+    const oldPreviewImage = await SpotImage.findOne({where:
+        { id: {[Op.eq]: req.param.id}, preview: {[Op.eq]: true}}
+       });
 
     if(!spot){
       
@@ -117,14 +169,14 @@ const validateCreateSpot = [
       res.json({message: 'Forbidden'});
     }
 
-     else if(!oldPreviewImage){
+     else if(oldPreviewImage){
+       res.json({message: 'Can only have one preview image per spot'});
+    }
+    else {
       const spotImage = await SpotImage.create({spotId:spot.id,url,preview});
       //  console.log(spotImage.id)
       const image = await SpotImage.scope('defaultScope').findOne({where: {id: spotImage.id}})
       res.json(image); 
-    }
-     else {
-      res.json({message: 'Can only have one preview image per spot'});
     }
     
     
@@ -135,16 +187,16 @@ const validateCreateSpot = [
     const spot = await Spot.findOne({where: {id: spotId}});
     const {review, stars} = req.body; 
     const userReview = await Review.findOne({where: {userId: req.user.id, spotId: spotId}});
-    console.log(spot.ownerId);
+    // console.log(spot.ownerId);
     if(!spot){
       res.statusCode = 404; 
       res.json({message: 'Spot couldn\'t be found'})
     } 
-    else if(spot.ownerId === req.user.id){
+    // else if(spot.ownerId === req.user.id){
       
-      res.statusCode = 403; 
-      res.json({message: 'Forbidden'})
-    }
+    //   res.statusCode = 403; 
+    //   res.json({message: 'Forbidden'})
+    // }
      else if(userReview){
       res.statusCode = 403; 
       res.json({message: 'User already has a review for this spot'})
@@ -223,10 +275,12 @@ router.post( "/", requireAuth, validateCreateSpot, async(req,res) => {
       if(!spot){
         res.statusCode = 404; 
         res.json({message: 'Spot couldn\'t be found'});
-      };
-      const currSpot = await spot.update({id,ownerId,address,city,state,country,lat,lng,name,description,price,createdAt, updatedAt: new Date("CURRENT_TIMESTAMP")});
+      } else {
 
-      res.json(currSpot)
+        const currSpot = await spot.update({id,ownerId,address,city,state,country,lat,lng,name,description,price,createdAt, updatedAt: new Date("CURRENT_TIMESTAMP")});
+  
+        res.json(currSpot)
+      }
     })
 
     // Get spots by current user
@@ -234,11 +288,11 @@ router.post( "/", requireAuth, validateCreateSpot, async(req,res) => {
       const spots = await Spot.findAll({ where: {
           ownerId: req.user.id
         },
-        include:{
-            model: SpotImage,
-            as: 'previewImages',
-            attributes: ['url']
-        },
+        // include:{
+        //     model: SpotImage,
+        //     as: 'previewImages',
+        //     attributes: ['url']
+        // },
         
     });
       let spotArray = []
@@ -247,26 +301,47 @@ router.post( "/", requireAuth, validateCreateSpot, async(req,res) => {
           let spot = spots[i];
           let {id,ownerId,address,city,state,country,lat,lng,name,description,price, createdAt, updatedAt} = spot; 
             let image = await SpotImage.findOne({
-                where: {spotId: id, preview: true}, 
-                attributes: ['url']
+              where: {spotId: {[Op.eq] :id}, preview:{ [Op.eq] : true}}, 
+              attributes: ['url']
                 
             })
+            if(!image) {
+
+              const reviewStar =  await Review.sum('stars',{where: {spotId : spot.id}})
+                    // console.log(reviewStar)
+                    
+                    const totalStars = await Review.count({where: {spotId: spot.id}})
+                    // console.log(totalStars)
+                    const avgStars = reviewStar/totalStars
+                    
+                  const newSpot = {
+                      id,ownerId,address,city,state,country,lat,lng,name,description,price,
+                      createdAt,
+                      updatedAt,
+                      avgStarRating: avgStars,
+                      preview: "no preview image"
+                  }
+                  spotArray.push(newSpot) }
+
+                  else {
+                    
+                    const reviewStar =  await Review.sum('stars',{where: {spotId : spot.id}})
+                    // console.log(reviewStar)
+                    
+                    const totalStars = await Review.count({where: {spotId: spot.id}})
+                    console.log(totalStars)
+                    const avgStars = reviewStar/totalStars
+                    
+                  const newSpot = {
+                      id,ownerId,address,city,state,country,lat,lng,name,description,price,
+                      createdAt,
+                      updatedAt,
+                      avgStarRating: avgStars,
+                      preview: image.url
+                  }
+                  spotArray.push(newSpot)
+                  }
             
-            const reviewStar =  await Review.sum('stars',{where: {spotId : spot.id}})
-            // console.log(reviewStar)
-            
-            const totalStars = await Review.count({where: {spotId: spot.id}})
-            console.log(totalStars)
-            const avgStars = reviewStar/totalStars
-            
-          const newSpot = {
-              id,ownerId,address,city,state,country,lat,lng,name,description,price,
-              createdAt,
-              updatedAt,
-              avgStarRating: avgStars,
-              preview: image.url
-          }
-          spotArray.push(newSpot)
       }
       if(spots) {
           res.json( {Spots : spotArray})
@@ -350,19 +425,21 @@ router.post( "/", requireAuth, validateCreateSpot, async(req,res) => {
       if(!spot){
         res.statusCode = 404; 
         res.json({message: 'Spot couldn\'t be found'});
+      } else {
+
+        const reviews = await Review.findAll({where: 
+          {spotId: spotId}, 
+          include:[ {
+            model: User,
+            attributes: ['id', 'firstName', 'lastName']
+          }, 
+        {model:ReviewImage,
+        attributes: ['id','url' ]}]
+          })
+          
+          res.json({Reviews: reviews});
       }
 
-      const reviews = await Review.findAll({where: 
-        {spotId: spotId}, 
-        include:[ {
-          model: User,
-          attributes: ['id', 'firstName', 'lastName']
-        }, 
-      {model:ReviewImage,
-      attributes: ['id','url' ]}]
-        })
-        
-        res.json(reviews);
     })
 
 
@@ -383,29 +460,31 @@ router.post( "/", requireAuth, validateCreateSpot, async(req,res) => {
       if(!spot){
         res.statusCode= 404;
         res.json({message: 'Spot couldn\'t be found'})
+      } else {
+
+        // console.log(spot)
+      let {id,ownerId,address,city,state,country,lat,lng,name,description,price,createdAt,updatedAt} = spot; 
+      
+      const reviewStar =  await Review.sum('stars',{where: {spotId : spot.id}})
+      // console.log(reviewStar)
+      
+      const totalStars = await Review.count({where: {spotId: spot.id}});
+      // console.log(totalStars)
+      const avgStars = reviewStar/totalStars;
+  
+      const user = await User.findOne({where: {id: ownerId}, attributes: ['id', 'firstName','lastName']})
+      // console.log(user)
+      const newSpot = {
+        id,ownerId,address,city,state,country,lat,lng,name,description,price,createdAt,updatedAt,
+        numReviews: totalStars,
+        avgStarRating: avgStars,
+        SpotImages: spot.previewImages,
+        Owner: user
       }
-      // console.log(spot)
-    let {id,ownerId,address,city,state,country,lat,lng,name,description,price,createdAt,updatedAt} = spot; 
-    
-    const reviewStar =  await Review.sum('stars',{where: {spotId : spot.id}})
-    // console.log(reviewStar)
-    
-    const totalStars = await Review.count({where: {spotId: spot.id}});
-    // console.log(totalStars)
-    const avgStars = reviewStar/totalStars;
-
-    const user = await User.findOne({where: {id: ownerId}, attributes: ['id', 'firstName','lastName']})
-    // console.log(user)
-    const newSpot = {
-      id,ownerId,address,city,state,country,lat,lng,name,description,price,createdAt,updatedAt,
-      numReviews: totalStars,
-      avgStarRating: avgStars,
-      SpotImages: spot.previewImages,
-      Owner: user
-    }
-
-
-    res.json(newSpot)
+  
+  
+      res.json(newSpot)
+      }
   });
     
 
@@ -414,27 +493,33 @@ router.post( "/", requireAuth, validateCreateSpot, async(req,res) => {
 
     // Get All Spots
   router.get('/', async (req,res) => {
-    const spots =  await Spot.findAll({include:{
-      model: SpotImage,
-      as: 'previewImages',
-      attributes: ['url']
-  },});
+  //   const spots =  await Spot.findAll({include:{
+  //     model: SpotImage,
+  //     as: 'previewImages',
+  //     where: {preview: true},
+  //     attributes: ['url']
+  // },});
+
+  const spots = await Spot.findAll();
   let spotArray = []
+  
+  
+  for(let i = 0; i< spots.length; i++){
+    let spot = spots[i];
+    let {id,ownerId,address,city,state,country,lat,lng,name,description,price, createdAt, updatedAt} = spot; 
+    let image = await SpotImage.findOne({
+      where: {spotId: {[Op.eq] :id}, preview:{ [Op.eq] : true}}, 
+      attributes: ['url']
       
-      for(let i = 0; i< spots.length; i++){
-          let spot = spots[i];
-          let {id,ownerId,address,city,state,country,lat,lng,name,description,price, createdAt, updatedAt} = spot; 
-            let image = await SpotImage.findOne({
-                where: {spotId: id, preview: true}, 
-                attributes: ['url']
-                
-            })
-            
-            const reviewStar =  await Review.sum('stars',{where: {spotId : spot.id}})
+    })
+    
+    if(!image) {
+
+      const reviewStar =  await Review.sum('stars',{where: {spotId : spot.id}})
             // console.log(reviewStar)
             
             const totalStars = await Review.count({where: {spotId: spot.id}})
-            console.log(totalStars)
+            // console.log(totalStars)
             const avgStars = reviewStar/totalStars
             
           const newSpot = {
@@ -442,9 +527,29 @@ router.post( "/", requireAuth, validateCreateSpot, async(req,res) => {
               createdAt,
               updatedAt,
               avgStarRating: avgStars,
-              preview: spot.previewImages[0].url
+              preview: "no preview image"
           }
           spotArray.push(newSpot)
+       
+    } else {
+
+      const reviewStar =  await Review.sum('stars',{where: {spotId : spot.id}})
+      // console.log(reviewStar)
+      
+      const totalStars = await Review.count({where: {spotId: spot.id}})
+      // console.log(totalStars)
+      const avgStars = reviewStar/totalStars
+      
+    const newSpot = {
+        id,ownerId,address,city,state,country,lat,lng,name,description,price,
+        createdAt,
+        updatedAt,
+        avgStarRating: avgStars,
+        preview: image.url
+    }
+    spotArray.push(newSpot)
+    }
+            
       }
       if(spots) {
           res.json( {Spots : spotArray})
@@ -463,15 +568,15 @@ router.post( "/", requireAuth, validateCreateSpot, async(req,res) => {
     if(!spot){
       res.statusCode = 404;
       res.json({message: 'Spot couldn\'t be found'}); 
-    };
-
-    if(req.user.id !== spot.ownerId){
+    } else if (req.user.id !== spot.ownerId){
       res.statusCode = 403;
       res.json({message: 'Forbidden'});
+    } else {
+      
+      await spot.destroy(); 
+      res.json({message: 'Successfully deleted'})
     }
 
-    await spot.destroy(); 
-    res.json({message: 'Successfully deleted'})
   })
 
 
