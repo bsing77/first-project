@@ -231,7 +231,7 @@ const validateCreateSpot = [
        res.json(currReview);  
     }
     
-  })
+  });
 
   // Create a booking from a pot based on the spot's id
 
@@ -493,13 +493,19 @@ router.post( "/", requireAuth, validateCreateSpot, async(req,res) => {
 
         // console.log(spot)
       let {id,ownerId,address,city,state,country,lat,lng,name,description,price,createdAt,updatedAt} = spot; 
-      
-      const reviewStar =  await Review.sum('stars',{where: {spotId : spot.id}})
+     
+      price = parseInt(price);
+      lat = new Number(lat)
+      lng= new Number(lng);
+     
+      let reviewStar =  await Review.sum('stars',{where: {spotId : spot.id}})
       // console.log(reviewStar)
+      reviewStar = new Number(reviewSar)
+      let totalStars = await Review.count({where: {spotId: spot.id}});
       
-      const totalStars = await Review.count({where: {spotId: spot.id}});
+        totalStars = new Number(totalStars)
       // console.log(totalStars)
-      const avgStars = reviewStar/totalStars;
+      let avgStars = reviewStar/totalStars;
   
       const user = await User.findOne({where: {id: ownerId}, attributes: ['id', 'firstName','lastName']})
       // console.log(user)
@@ -586,6 +592,9 @@ router.post( "/", requireAuth, validateCreateSpot, async(req,res) => {
       attributes: ['url']
       
     })
+    price = parseInt(price);
+    lat = new Number(lat)
+    lng= new Number(lng);
     const reviewStar =  await Review.sum('stars',{where: {spotId : spot.id}})
           // console.log(reviewStar)
           
