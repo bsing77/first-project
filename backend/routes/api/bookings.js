@@ -93,12 +93,10 @@ router.get('/current', requireAuth, async (req,res) => {
 // Delete a booking
 
 router.delete('/:bookingId', requireAuth, async (req,res) => {
-    const booking = await Booking.findOne({where: {id: req.params.bookingId},
-        include: {
-            model: Spot,
-            attributes:['id', 'ownerId']
-        }
+    const booking = await Booking.scope(null).findOne({where: {id: req.params.bookingId},
+        
     });
+    const spot = await Spot.scope(null).findOne({where: {id: booking.spotId}}) 
     const today = Date.now();
     if(!booking){
         res.statusCode = 404; 
@@ -108,13 +106,18 @@ router.delete('/:bookingId', requireAuth, async (req,res) => {
         res.statusCode = 403; 
         res.json({message: 'Bookings that have started can\'t be deleted'})
     }
-    else if (booking.userId !== req.user.id || booking.spot.ownerId !== req.user.id){
+    else if (booking.userId !== req.user.id ){
+        console.log(spot.ownerId,  req.user.id)
         res.statusCode = 403; 
         res.json({message: 'Forbidden'});
     } 
-    else {
+    else  if (spot.ownerId === req.userId){
         await booking.destroy(); 
         res.json({message: 'Successfully deleted'});
+    }
+    else {
+        await booking.destroy();
+        res.json({message: "Successfully deleted"})
     }
 });
 
