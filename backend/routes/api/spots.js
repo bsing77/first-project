@@ -500,7 +500,7 @@ router.post( "/", requireAuth, validateCreateSpot, async(req,res) => {
      
       let reviewStar =  await Review.sum('stars',{where: {spotId : spot.id}})
       // console.log(reviewStar)
-      reviewStar = new Number(reviewSar)
+      reviewStar = new Number(reviewStar)
       let totalStars = await Review.count({where: {spotId: spot.id}});
       
         totalStars = new Number(totalStars)
