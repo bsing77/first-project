@@ -40,7 +40,7 @@ const validateReview = [
 // Create an Image for a reivew
 router.post('/:reviewId/images', requireAuth, async (req,res) => {
     const reviewId = req.params.reviewId; 
-    console.log(reviewId)
+    // console.log(reviewId)
     const {url} = req.body; 
 
     const review = await Review.findOne({where:{id: reviewId} });
