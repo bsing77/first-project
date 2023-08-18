@@ -35,7 +35,8 @@ module.exports = (sequelize, DataTypes) => {
       attributes: {
         exclude: ['reviewId', 'createdAt','updatedAt']
       }
-    }
+    },
+
     
   });
   return ReviewImage;

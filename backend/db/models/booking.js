@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
 
     },
     startDate: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       allowNull: false,
       validate: {
         isDate: true,
@@ -43,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
           }
         },
     endDate: {
-      type: DataTypes.DATE,
+      type: DataTypes.DATEONLY,
       allowNull: false,
       validate: {
         isDate: true,
@@ -53,12 +53,30 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Booking',
+    
     defaultScope: { 
       attributes: { 
           exclude: [ "id","userId", "createdAt", "updatedAt" ] 
       }  
-  }
-    
+  },
+  // hooks: {
+  //   beforeCreate: (record, options) => {
+  //     record.dataValues.createdAt = new Date().toISOString().slice(0,19).replace('T', ' ');
+  //     record.dataValues.updatedAt = new Date().toISOString().slice(0,19).replace('T', ' ');
+  //   },
+  //   beforeUpdate: (record, options) => {
+  //     record.dataValues.createdAt = new Date().toISOString().slice(0,19).replace('T', ' ');
+  //     record.dataValues.updatedAt = new Date().toISOString().slice(0,19).replace('T', ' ');
+  //   },
+  //   afterCreate: (record, options) => {
+  //     record.dataValues.createdAt = new Date().toISOString().slice(0,19).replace('T', ' ');
+  //     record.dataValues.updatedAt = new Date().toISOString().slice(0,19).replace('T', ' ');
+  //   },
+  //   afterUdate: (record, options) => {
+  //     record.dataValues.createdAt = new Date().toISOString().slice(0,19).replace('T', ' ');
+  //     record.dataValues.updatedAt = new Date().toISOString().slice(0,19).replace('T', ' ');
+  //   }
+  // },
   });
   return Booking;
 };

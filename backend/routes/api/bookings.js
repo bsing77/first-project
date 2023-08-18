@@ -47,6 +47,13 @@ router.put('/:bookingId', requireAuth, async (req,res) => {
             res.json({message: 'Sorry this spot is already booked for the specified dates', errors: { endDate: 'End date conflicts with an existing booking'}})
     } else {
       const updatedBooking = await booking.update({id, spotId,userId,startDate, endDate, createdAt, updatedAt: new Date('CURRENT_TIMESTAMP')}) 
+
+      const newBooking = updatedBooking.toJson(); 
+
+      newBooking.createdAt = newBooking.createdAt.toISOString().slice(0,19).replace('T', ' ');
+      newBooking.updatedAt = newBooking.updatedAt.toISOString().slice(0,19).replace('T', ' ');
+
+
         res.json(updatedBooking);
     }
          
@@ -82,9 +89,13 @@ router.get('/current', requireAuth, async (req,res) => {
         userId: booking.userId,
         startDate: booking.startDate,
         endDate: booking.endDate,
-        createdAt: booking.createdAt,
-        updatedAt: booking.updatedAt,
+        createdAt: booking.createdAt.toISOString().slice(0,19).replace('T', ' '),
+        updatedAt: booking.updatedAt.toISOString().slice(0,19).replace('T', ' '),
     }));
+
+  console.log(currBookings)
+//   currBookings[0].createdAt = currBookings[0].createdAt.toISOString().slice(0,19).replace('T', ' ');
+//   currBookings[0].updatedAt = currBookings[0].updatedAt.toISOString().slice(0,19).replace('T', ' '); 
 
     res.json({Bookings: currBookings});
 

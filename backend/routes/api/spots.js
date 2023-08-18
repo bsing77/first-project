@@ -275,8 +275,12 @@ const validateCreateSpot = [
       }
       
       const currBooking = await Booking.create({spotId: spot.id, userId: req.user.id,startDate, endDate});
+
+      const newSpot = currBooking.toJSON(); 
+      newSpot.createdAt = newSpot.createdAt.toISOString().slice(0,19).replace('T', ' ');
+      newSpot.updatedAt = newSpot.updatedAt.toISOString().slice(0,19).replace('T', ' '); 
       // console.log(Date.parse(startDate) > Date.parse(endDate))
-      res.json(currBooking); 
+      res.json(newSpot); 
 
     };
     
@@ -286,9 +290,16 @@ const validateCreateSpot = [
 router.post( "/", requireAuth, validateCreateSpot, async(req,res) => {
     const{address,city,state,country,lat,lng,name,description,price} = req.body
     
-    const spot = await Spot.create({ownerId:req.user.id,address,city,state,country,lat,lng,name,description,price})
+    const spot = await Spot.create({ownerId:req.user.id,address,city,state,country,lat,lng,name,description,price});
+
+
+  
+    const newSpot = spot.toJSON(); 
+    newSpot.createdAt = newSpot.createdAt.toISOString().slice(0,19).replace('T', ' ');
+    newSpot.updatedAt = newSpot.updatedAt.toISOString().slice(0,19).replace('T', ' '); 
+   
     
-    res.json(spot)
+    res.json(newSpot)
   });
 
     // Edit a Spot
@@ -307,7 +318,11 @@ router.post( "/", requireAuth, validateCreateSpot, async(req,res) => {
 
         const currSpot = await spot.update({id,ownerId,address,city,state,country,lat,lng,name,description,price,createdAt, updatedAt: new Date("CURRENT_TIMESTAMP")});
   
-        res.json(currSpot)
+        const newSpot = currSpot.toJSON(); 
+        newSpot.createdAt = newSpot.createdAt.toISOString().slice(0,19).replace('T', ' ');
+    newSpot.updatedAt = newSpot.updatedAt.toISOString().slice(0,19).replace('T', ' '); 
+
+        res.json(newSpot)
       } 
       
     });
@@ -350,6 +365,9 @@ router.post( "/", requireAuth, validateCreateSpot, async(req,res) => {
                       avgStarRating: avgStars,
                       preview: "no preview image"
                   }
+                  newSpot.createdAt = createdAt.toISOString().slice(0,19).replace('T', ' ');
+                  newSpot.updatedAt = updatedAt.toISOString().slice(0,19).replace('T', ' '); 
+
                   spotArray.push(newSpot) }
 
                   else {
@@ -368,6 +386,8 @@ router.post( "/", requireAuth, validateCreateSpot, async(req,res) => {
                       avgStarRating: avgStars,
                       preview: image.url
                   }
+                  newSpot.createdAt = createdAt.toISOString().slice(0,19).replace('T', ' ');
+                  newSpot.updatedAt = updatedAt.toISOString().slice(0,19).replace('T', ' '); 
                   spotArray.push(newSpot)
                   }
             
@@ -398,7 +418,7 @@ router.post( "/", requireAuth, validateCreateSpot, async(req,res) => {
             attributes: ['id', 'firstName', 'lastName']
           }
         });
-        console.log(currUserBookings);
+        // console.log(currUserBookings);
         
         const newBooking = currUserBookings.map((booking) => ({
           User: {
@@ -411,11 +431,13 @@ router.post( "/", requireAuth, validateCreateSpot, async(req,res) => {
           userId: booking.userId,
           startDate: booking.startDate,
           endDate: booking.endDate,
-          createdAt: booking.createdAt,
-          updatedAt: booking.updatedAt,
+          createdAt: booking.createdAt.toISOString().slice(0,19),
+          updatedAt: booking.updatedAt.toISOString().slice(0,19),
         }));
         
-        console.log(newBooking);
+        // console.log(newBooking);
+        // newBooking[0].createdAt = newBooking[0].createdAt.toISOString().slice(0,19).replace('T', ' ');
+        // newBooking[0].updatedAt = newBooking[0].updatedAt.toISOString().slice(0,19).replace('T', ' ');
         
         res.json({Bookings: newBooking});
       } else {
@@ -500,7 +522,7 @@ router.post( "/", requireAuth, validateCreateSpot, async(req,res) => {
      
       let reviewStar =  await Review.sum('stars',{where: {spotId : spot.id}})
       // console.log(reviewStar)
-      reviewStar = new Number(reviewSar)
+      reviewStar = new Number(reviewStar)
       let totalStars = await Review.count({where: {spotId: spot.id}});
       
         totalStars = new Number(totalStars)
@@ -516,7 +538,8 @@ router.post( "/", requireAuth, validateCreateSpot, async(req,res) => {
         SpotImages: spot.previewImages,
         Owner: user
       }
-  
+      newSpot.createdAt = createdAt.toISOString().slice(0,19).replace('T', ' ');
+      newSpot.updatedAt = updatedAt.toISOString().slice(0,19).replace('T', ' '); 
   
       res.json(newSpot)
       }
@@ -612,6 +635,8 @@ router.post( "/", requireAuth, validateCreateSpot, async(req,res) => {
               avgStarRating: avgStars,
               preview: "no preview image"
           }
+          newSpot.createdAt = createdAt.toISOString().slice(0,19).replace('T', ' ');
+          newSpot.updatedAt = updatedAt.toISOString().slice(0,19).replace('T', ' '); 
           spotArray.push(newSpot)
        
     } else {
@@ -630,6 +655,9 @@ router.post( "/", requireAuth, validateCreateSpot, async(req,res) => {
         avgStarRating: avgStars,
         preview: image.url
     }
+    newSpot.createdAt = createdAt.toISOString().slice(0,19).replace('T', ' ');
+    newSpot.updatedAt = updatedAt.toISOString().slice(0,19).replace('T', ' '); 
+
     spotArray.push(newSpot)
     }
             
