@@ -1,5 +1,5 @@
 
-.formPage {
+form {
 
     display: flex;
     flex-direction: column;
@@ -7,7 +7,7 @@
     align-items: center;
 }
 
-.loginForm {
+label {
     display: flex;
     flex-direction: column;
     justify-content: center;

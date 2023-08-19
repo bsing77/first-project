@@ -21,6 +21,8 @@
   }
   
   #modal-content {
+    height: 30%;
+    width: 50%;
     position: absolute;
     background-color: white;
     display: flex;
