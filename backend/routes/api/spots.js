@@ -257,7 +257,7 @@ const validateCreateSpot = [
       const bookings = await Booking.findAll({where:{spotId: spot.id }});
       for(let i = 0; i < bookings.length; i++){
         let booking = bookings[i];
-        console.log(booking);
+        // console.log(booking);
         
         
         if(Date.parse(startDate) >= Date.parse(booking.startDate) && Date.parse(startDate) <= Date.parse(booking.endDate) &&  Date.parse(endDate) >= Date.parse(booking.startDate) && Date.parse(endDate) <= Date.parse(booking.endDate) ){
@@ -376,7 +376,7 @@ router.post( "/", requireAuth, validateCreateSpot, async(req,res) => {
                     // console.log(reviewStar)
                     
                     const totalStars = await Review.count({where: {spotId: spot.id}})
-                    console.log(totalStars)
+                    // console.log(totalStars)
                     const avgStars = reviewStar/totalStars
                     
                   const newSpot = {

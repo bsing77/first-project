@@ -17,7 +17,7 @@ router.put('/:bookingId', requireAuth, async (req,res) => {
     const booking = await Booking.scope(null).findOne({where: {id: req.params.bookingId}});
     const {id, spotId, userId,startDate, endDate, createdAt, updatedAt} = req.body;
     const today = Date.now();
-    console.log(today)
+    // console.log(today)
      if(!booking){
       res.statusCode = 404; 
       res.json({ message: 'Booking couldn\'t be found'});
@@ -93,7 +93,7 @@ router.get('/current', requireAuth, async (req,res) => {
         updatedAt: booking.updatedAt.toISOString().slice(0,19).replace('T', ' '),
     }));
 
-  console.log(currBookings)
+//   console.log(currBookings)
 //   currBookings[0].createdAt = currBookings[0].createdAt.toISOString().slice(0,19).replace('T', ' ');
 //   currBookings[0].updatedAt = currBookings[0].updatedAt.toISOString().slice(0,19).replace('T', ' '); 
 
