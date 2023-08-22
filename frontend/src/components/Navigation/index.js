@@ -17,11 +17,11 @@ function Navigation({ isLoaded }) {
     <ul>
       <li>
         <NavLink exact to="/">
-          Home
+          <img class='logo' src = '../../../src/assets/BB&Blogo.png'/>
         </NavLink>
       </li>
       {isLoaded && (
-        <li>
+        <li className = 'profile-button'>
           <ProfileButton user = {sessionUser} />
         </li>
       )}
