@@ -14,10 +14,10 @@ function Navigation({ isLoaded }) {
 
 
   return (
-    <ul>
+    <ul className= 'navBar'>
       <li>
         <NavLink exact to="/">
-          <img class='logo' src = '../../../src/assets/BB&Blogo.png'/>
+          <img class='logo' src = '../../assets/BB&Blogo.png'/>
         </NavLink>
       </li>
       {isLoaded && (

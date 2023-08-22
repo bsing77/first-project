@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Route, Switch } from "react-router-dom";
+import { getAllSpots } from "./store/spots";
 
 
 import * as sessionActions from "./store/session";
@@ -13,6 +14,9 @@ function App() {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
 
+  useEffect(()=> {
+    dispatch(getAllSpots())
+  },[]);
 
   return (
     <>

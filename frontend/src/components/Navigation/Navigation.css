@@ -2,3 +2,33 @@
     visibility: hidden;
 }
 
+.navBar {
+    display: inline-block;
+    margin-right: 10%;
+    width: 100%;
+    border-bottom: solid lightgray 1px;
+    list-style-type: none;
+}
+.logo{
+   float: left;
+   list-style-type: none;
+   border: solid red 1px;
+}
+.profile-button{
+    
+    list-style-type: none;
+    border: solid red 1px;
+    
+    
+}
+.profile-dropdown{
+    list-style-type: none;
+    
+    
+    border: solid red 1px;
+    
+    
+}
+.nav-log-in {
+    border: solid red 1px;
+}
