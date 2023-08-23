@@ -17,7 +17,7 @@ function Navigation({ isLoaded }) {
     <ul className= 'navBar'>
       <li>
         <NavLink exact to="/">
-          <img class='logo' src = '../../assets/BB&Blogo.png'/>
+          <img className ='logo' src = '../../assets/BB&Blogo.png'/>
         </NavLink>
       </li>
       {isLoaded && (

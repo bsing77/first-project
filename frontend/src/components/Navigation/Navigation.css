@@ -15,7 +15,7 @@
    border: solid red 1px;
 }
 .profile-button{
-    
+    float: right;
     list-style-type: none;
     border: solid red 1px;
     
