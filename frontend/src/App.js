@@ -18,6 +18,10 @@ function App() {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
   }, [dispatch]);
 
+  useEffect(() => {
+    dispatch(getAllSpots())
+  },[dispatch])
+
  
 
   return (

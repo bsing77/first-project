@@ -30,10 +30,11 @@ export const getAllSpots = () => async(dispatch) => {
 
 export const getSpotDetails = (spotId) => async(dispatch) => {
     const res = await fetch(`/api/spots/${spotId}`)
-  console.log(res)
+  
     if(res.ok) {
       const spot =  await res.json(); 
       dispatch(receiveSpot(spot))
+      
     } 
   };
 

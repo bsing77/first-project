@@ -3,31 +3,60 @@
 }
 
 .navBar {
-    display: inline-block;
-    margin-right: 10%;
-    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin:0;
+    padding: 0; 
     border-bottom: solid lightgray 1px;
     list-style-type: none;
 }
+.navBar li a{
+    position: relative;
+    left: 2rem;
+
+}
 .logo{
    float: left;
-   list-style-type: none;
-   border: solid red 1px;
+   color: red; 
+   
+   
+
+   
 }
 .profile-button{
-    float: right;
-    list-style-type: none;
-    border: solid red 1px;
+   display:flex; 
+   align-items: center;
+   position: relative;
+   right: 2rem;
+
     
     
 }
 .profile-dropdown{
-    list-style-type: none;
+    position: absolute;
+    
+  top: 100%;
+  right:1rem;
+  left: auto;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 7rem;
+  height: 5rem;
+  list-style-type: none;
+  padding: 0;
+  z-index: 2;
     
     
-    border: solid red 1px;
     
     
+}
+.profile-dropdown li {
+    padding: 4px ;
+    white-space: nowrap;
+    margin: 10px 0; 
 }
 .nav-log-in {
     border: solid red 1px;

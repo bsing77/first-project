@@ -1,38 +1,80 @@
 
-import { getSpotDetails } from "../../store/spotDetails";
+import { getSpotDetails } from '../../store/spots';
 import { Link, useParams, useHistory } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 
 
+
 const   SpotDetailPage = () =>  {
     const spotId = useParams().id;
     const history = useHistory();
-    
+    const [goToSpot, setGoToSpot] = useState(spotId);
     const dispatch = useDispatch(); 
   
-  const spotDetails = useSelector(state => state.spotDetails);
-     
-    console.log(spotDetails)
-  useEffect(() => {
-    dispatch(getSpotDetails(spotId));
-  },[dispatch, spotId])
+  
+    useEffect( () => {
+        dispatch(getSpotDetails(spotId))
+    }, [dispatch, spotId])
 
-    // console.log(spots); 
-const spot = spotDetails[spotId] || null; 
+    
+   
+       const spot = useSelector( state => state.spots[spotId])
+   
+    // console.log(spot)
+
+    const previewImage =  spot.SpotImages && spot.SpotImages[0]? spot.SpotImages[0].url : '';
+
+    const otherImages = spot.SpotImages ? spot.SpotImages.map(image => image.url) : [];
+    // console.log(otherImages)
+    
+
+    const firstName = spot.Owner ? spot.Owner.firstName : '';
+    const lastName = spot.Owner ? spot.Owner.lastName : '';
+   
+    if(!spot){
+        return <div>Loading ...</div>
+    }
+    
    return (
-       <div>
-          {spot ? (
-        <div>
-          <h2>{spot.name}</h2>
-          {/* Display other spot details */}
+    
+
+       <div className="spotDetail-outer-div">
+        <div className='name-location-div'>
+          <h1>{spot.name}</h1>
+          <h2>{spot.city}, {spot.state}, {spot.country} </h2>
         </div>
-      ) : (
-        <p>Loading...</p>
-      )}
-    </div>
-       
+          <div className='spot-images div'>
+              <div className='preview-image-div'>
+                <img className="preview-image" src={previewImage} />  
+              </div>
+              <div className='other-images-div'>
+                {otherImages.map(img => 
+                    <img src={img}/>)}
+              </div>
+        </div>
+        <div className="hostName-price-div">
+            <div className="host-name">
+                <h1>Hosted by {firstName} {lastName}</h1>
+            </div>
+            <div className="description">{spot.description}</div>
+            <div className="price-star-rating-reserve-div">
+                <p className='price'>${spot.price} night</p>
+                
+                <p><span>&#9734;</span>{spot.avgStarRating}</p>
+
+                <div className='num-reviews'>{spot.numReviews} reviews</div>
+
+                <div className='button-div'>
+                    <button className='button'>Reserve</button>
+                </div>
+            </div>
+        </div>
+       </div>
+    
+    
+    
    )
 }
 

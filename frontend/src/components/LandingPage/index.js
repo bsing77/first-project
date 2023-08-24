@@ -3,7 +3,9 @@ import { getAllSpots
  } from "../../store/spots";
  import { useEffect } from "react";
  import './LandingPage.css'
- import SpotShowCard from "../SpotShowCard";
+//  import SpotShowCard from "../SpotShowCard";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { Link } from "react-router-dom";
 
 
  function LandingPage () {
@@ -15,16 +17,27 @@ import { getAllSpots
         dispatch(getAllSpots())
     }, [dispatch]);
 
-   
+    const history = useHistory()
+//    const handleClick = () => {
+//     history.push(`/spots/${spot.id}`)
    
 
     return (
         <div className= 'spot-ul'>
-            <ul>
+            <ul className = 'spot-group'>
                 {spots.map(spot => (
-                    <div key={spot.id} className= 'single-spot tootip'>
-                        <SpotShowCard spot={spot} />
+                    <Link to= {`/spots/${spot.id}`}className='spot-link tooltip' data-tooltip={spot.name}>
+                        <div key ={spot.id} className='spotItem'>
+                    <div className='image-div'>
+                    <img className ="spot-preview-image" src ={spot.preview}></img>
                     </div>
+                    <div className="spot-details">
+                    <p >{spot.city}, {spot.state}</p>
+                    <p className='avg-star-rating'><span>&#9734;</span>{spot.avgStarRating ? spot.avgStarRating : 'New'}</p>
+                    <p >${spot.price}.00 night</p>
+                    </div>
+                    </div>
+                    </Link>
                 ))}
             </ul>
         </div>

@@ -16,12 +16,12 @@ function Navigation({ isLoaded }) {
   return (
     <ul className= 'navBar'>
       <li>
-        <NavLink exact to="/">
-          <img className ='logo' src = '../../assets/BB&Blogo.png'/>
+        <NavLink exact to="/" style={{color: 'red', fontSize: '24px'}}>
+        <i className="fa-brands fa-airbnb fa-rotate-270" ></i>{' '}BBnB
         </NavLink>
       </li>
       {isLoaded && (
-        <li className = 'profile-button'>
+        <li className = 'profile-button-container'>
           <ProfileButton user = {sessionUser} />
         </li>
       )}

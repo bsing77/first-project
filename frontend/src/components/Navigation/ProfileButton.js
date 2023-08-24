@@ -41,8 +41,8 @@ function ProfileButton({ user }) {
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (
-    <>
-      <button onClick={openMenu}>
+    <div className ={`profile-button ${showMenu? 'acive' : ''}`}>
+      <button onClick={openMenu} className='profile-button-trigger'>
         <i className="fas fa-user-circle" />
       </button>
       <ul className={ulClassName} ref={ulRef}>
@@ -71,7 +71,7 @@ function ProfileButton({ user }) {
           </>
         )}
       </ul>
-    </>
+    </div>
   );
 }
 
