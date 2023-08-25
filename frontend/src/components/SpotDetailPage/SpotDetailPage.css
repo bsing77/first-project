@@ -1,4 +1,6 @@
-
+.spotDetail-outer-div{
+    border: solid 3px blue;
+}
 .location {
     font-size: 15px;
 }
@@ -49,9 +51,35 @@
     position: relative;
     top:0;
     left: 0; 
+    margin:10px;
     
 }
 
-.price-star-rating-div {
-border: black solid 2px;
+.price-star-rating-reserve-div {
+    position: absolute;
+    right: 10px;
+    top:0;
+    margin: 10px;
+border: black solid 3px;
+border-radius: 5px;
+width: 25%;
+
+}
+.price {
+    margin-left: 5px;
+
+}
+.star {
+    position: absolute;
+    
+    width: max-content;
+    top:0;
+    right: 50%;
+}
+.num-reviews {
+    position: absolute;
+    width: max-content;
+    top:0;
+    right:0;
+    margin: 10px; 
 }

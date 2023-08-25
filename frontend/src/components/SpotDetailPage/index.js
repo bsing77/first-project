@@ -71,7 +71,7 @@ const   SpotDetailPage = () =>  {
             <div className="price-star-rating-reserve-div">
                 <p className='price'>${spot.price} night</p>
                 
-                <p><span>&#9734;</span>{spot.avgStarRating}</p>
+                <p className='star'><span>&#9734;</span>{spot.avgStarRating}</p>
 
                 <div className='num-reviews'>{spot.numReviews} reviews</div>
 
