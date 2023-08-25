@@ -1,0 +1,57 @@
+
+.location {
+    font-size: 15px;
+}
+.spot-images-div {
+    display: flex;
+    flex-direction: row;
+    
+    border: solid green 1px;
+
+}
+.preview-image-div {
+    width: 50%;
+    height: 500px;
+    margin: 10px;
+    border: solid 1px blue;
+    position: relative;
+    overflow: hidden;
+    
+}
+.preview-image{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    min-width: 100%;
+    min-height: 100%;
+}
+.other-images-div {
+ border: solid 1px red;
+ margin: 10px;
+}
+.other-images-container {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    list-style: none;
+    grid-gap: 10px;
+    border: solid green 1px; 
+
+}
+.hostName-price-div {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid red;
+}
+
+
+.host-name {
+    position: relative;
+    top:0;
+    left: 0; 
+    
+}
+
+.price-star-rating-div {
+border: black solid 2px;
+}

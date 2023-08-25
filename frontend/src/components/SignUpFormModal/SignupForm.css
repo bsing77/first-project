@@ -1,0 +1,36 @@
+
+ .button {
+    margin: 20px;
+    width: 85%;
+    height: 40px;
+    color: white;
+    background-color: red;
+    border-radius: 5px;
+    box-shadow: 5px 5px 2px black ;
+ }
+ form {
+    width: 100%; 
+  
+}
+label {
+   width: 90%;
+    
+}
+input {
+    width: 90%;
+    background-color: rgb(191, 208, 224);
+    border: black solid 1px;
+    margin: 10px; 
+}
+.signUp-div {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    
+    align-items: center;
+    justify-content: center;
+ }
+
+ .login {
+    font-family: "Veranda" ;
+ }

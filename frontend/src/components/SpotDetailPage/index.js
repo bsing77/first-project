@@ -3,6 +3,7 @@ import { getSpotDetails } from '../../store/spots';
 import { Link, useParams, useHistory } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import './SpotDetailPage.css'
 
 
 
@@ -11,11 +12,13 @@ const   SpotDetailPage = () =>  {
     const spotId = useParams().id;
     const history = useHistory();
     const [goToSpot, setGoToSpot] = useState(spotId);
+    const [isLoaded, setIsLoaded] = useState(false);
     const dispatch = useDispatch(); 
   
   
     useEffect( () => {
         dispatch(getSpotDetails(spotId))
+        .then(() => setIsLoaded(true));
     }, [dispatch, spotId])
 
     
@@ -24,7 +27,9 @@ const   SpotDetailPage = () =>  {
    
     // console.log(spot)
 
-    const previewImage =  spot.SpotImages && spot.SpotImages[0]? spot.SpotImages[0].url : '';
+    const previewImage = spot.SpotImages ? spot.SpotImages[0] : '';
+
+    
 
     const otherImages = spot.SpotImages ? spot.SpotImages.map(image => image.url) : [];
     // console.log(otherImages)
@@ -38,20 +43,24 @@ const   SpotDetailPage = () =>  {
     }
     
    return (
-    
-
-       <div className="spotDetail-outer-div">
+    <div isLoaded={isLoaded}>
+        {isLoaded && (
+            
+       <div className="spotDetail-outer-div" >
+        
         <div className='name-location-div'>
           <h1>{spot.name}</h1>
-          <h2>{spot.city}, {spot.state}, {spot.country} </h2>
+          <h2 className="location">{spot.city}, {spot.state}, {spot.country} </h2>
         </div>
-          <div className='spot-images div'>
+          <div className='spot-images-div'>
               <div className='preview-image-div'>
-                <img className="preview-image" src={previewImage} />  
+                <img className="preview-image" src={previewImage.url} />  
               </div>
               <div className='other-images-div'>
+                <div className="other-images-container">
                 {otherImages.map(img => 
-                    <img src={img}/>)}
+                    <img src={img}/>)} 
+                </div>
               </div>
         </div>
         <div className="hostName-price-div">
@@ -72,7 +81,9 @@ const   SpotDetailPage = () =>  {
             </div>
         </div>
        </div>
-    
+        )}
+
+       </div>
     
     
    )

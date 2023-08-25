@@ -44,7 +44,7 @@
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 7rem;
-  height: 5rem;
+  height: max-content;
   list-style-type: none;
   padding: 0;
   z-index: 2;
@@ -53,6 +53,8 @@
     
     
 }
+
+
 .profile-dropdown li {
     padding: 4px ;
     white-space: nowrap;
@@ -60,4 +62,8 @@
 }
 .nav-log-in {
     border: solid red 1px;
+}
+.nav-log-in:hover {
+    cursor: pointer;
+
 }

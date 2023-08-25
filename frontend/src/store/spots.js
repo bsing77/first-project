@@ -33,6 +33,7 @@ export const getSpotDetails = (spotId) => async(dispatch) => {
   
     if(res.ok) {
       const spot =  await res.json(); 
+      console.log(spot)
       dispatch(receiveSpot(spot))
       
     } 
