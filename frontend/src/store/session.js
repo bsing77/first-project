@@ -21,13 +21,25 @@ export const login = (user) => async(dispatch) => {
     const {credential, password} = user; 
     const response = await csrfFetch('/api/session', {
         method: 'POST', 
+        header: {
+          "Content-type": 'application/json'
+        },
         body: JSON.stringify({
             credential, 
             password,
         }),
     });
+  
     const data = await response.json(); 
+    if(!response.status >= 400) {
+      
+      // console.log(data, 'DATA')
+      
+      return (data.errors)
+    }
+
     dispatch(setUser(data.user));
+   
     return response; 
 }
 
@@ -51,6 +63,11 @@ export const restoreUser = () => async (dispatch) => {
       }),
     });
     const data = await response.json();
+
+    // console.log(data)
+    if (response.status >= 400){
+      return (data.errors)
+    }
     dispatch(setUser(data.user));
     return response;
   };

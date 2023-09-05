@@ -14,14 +14,14 @@ function Navigation({ isLoaded }) {
 
 
   return (
-    <ul>
+    <ul className= 'navBar'>
       <li>
-        <NavLink exact to="/">
-          Home
+        <NavLink exact to="/" style={{color: 'red', fontSize: '24px'}}>
+        <i className="fa-brands fa-airbnb fa-rotate-270" ></i>{' '}BBnB
         </NavLink>
       </li>
       {isLoaded && (
-        <li>
+        <li className = 'profile-button-container'>
           <ProfileButton user = {sessionUser} />
         </li>
       )}

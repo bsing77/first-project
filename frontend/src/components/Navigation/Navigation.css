@@ -1,3 +1,111 @@
 .hidden {
     visibility: hidden;
 }
+
+.navBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin:0;
+    padding: 0; 
+    border-bottom: solid lightgray 1px;
+    list-style-type: none;
+    height: 5rem;
+}
+.navBar li a{
+    position: relative;
+    left: 2rem;
+
+}
+.logo{
+   float: left;
+   color: red; 
+   
+   
+
+   
+}
+.profile-button{
+   display:flex; 
+   align-items: center;
+   position: relative;
+   right: 2rem;
+
+    
+    
+}
+.profile-dropdown{
+    position: absolute;
+    
+  top: 100%;
+  right:1rem;
+  left: auto;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: max-content;
+  height: max-content;
+  list-style-type: none;
+  padding: 0;
+  z-index: 2;
+    
+    
+    
+    
+}
+
+
+.profile-dropdown li {
+    padding: 4px ;
+    white-space: nowrap;
+    margin: 10px 0; 
+}
+.nav-log-in {
+    border: solid red 1px;
+}
+.nav-log-in:hover {
+    cursor: pointer;
+
+}
+.new-spot-link {
+    font-size:12px;
+    color: rgb(1, 66, 112);
+
+    margin: 0 10px;
+}
+.new-spot-link:hover {
+    cursor: pointer;
+}
+.user-info-div {
+    all: unset;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.user-name-email-div {
+    margin: unset;
+    border-bottom: black solid 1px;
+    padding: 0; 
+}
+.user-email {
+    margin: unset;
+    margin: 0; 
+}
+.user-firstName {
+    margin: 0; 
+    padding: 0; 
+}
+.manage-user-div {
+    border-bottom: black 1px solid; 
+}
+.user-logout {
+    border-radius: 40px;
+    height: 2rem;
+    background-color: darkgray;
+    color: white;
+}
+.manage-spots-link:hover {
+    cursor: pointer;
+}

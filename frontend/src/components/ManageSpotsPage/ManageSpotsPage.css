@@ -1,0 +1,48 @@
+
+
+
+.create-new-button{
+    background-color: gray;
+    color: white;
+    box-shadow: 2px 2px 2px black;
+}
+.create-new-button:hover {
+    cursor: pointer;
+}
+.update-delete-buttons{
+    margin-top: 10px;
+    
+}
+.manage-spot-delete-button {
+    margin-left: 5px; 
+    background-color: gray;
+    color: white;
+    box-shadow: 2px 2px 2px black;
+    margin-top: 5px;
+
+}
+.manage-spot-update-button{
+    background-color: gray;
+    color: white;
+    box-shadow: 2px 2px 2px black;
+    margin-top: 5px;
+}
+.manage-spot-update-button:hover {
+    cursor: pointer;
+}
+.manage-spot-inner-div {
+    /* border: blue 10px solid; */
+    margin-left: 20px;
+    margin-right: 20px;
+
+}
+
+.manage-a-new-spot-button {
+
+    background-color: gray;
+    color: white;
+    box-shadow: 2px 2px 2px black;
+}
+.manage-a-new-spot-button:hover{
+    cursor: pointer;
+}

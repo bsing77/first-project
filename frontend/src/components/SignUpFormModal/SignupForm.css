@@ -1,0 +1,47 @@
+
+ .button {
+    margin: 20px;
+    width: 85%;
+    height: 40px;
+    color: white;
+    background-color:  rgb(238, 90, 90);
+    border-radius: 5px;
+    box-shadow: 5px 5px 2px black ;
+ }
+
+ .button:hover {
+    cursor: pointer;
+ }
+ form {
+    width: 100%; 
+  
+}
+label {
+   width: 90%;
+   margin: 10px;
+    
+}
+input {
+    width: 90%;
+    background-color: rgb(191, 208, 224);
+    border: black solid 1px;
+    margin: 10px; 
+}
+.signUp-div {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    
+    align-items: center;
+    justify-content: center;
+ }
+
+ .login {
+    font-family: "Veranda" ;
+ }
+ .grey{
+    background-color: white;
+    color: grey;
+    border: grey 1px solid; 
+    box-shadow: 5px 5px 2px grey;
+}

@@ -1,0 +1,280 @@
+.spotDetail-outer-div{
+    /* border: solid 3px blue; */
+}
+.inner-outer-div{
+    margin: 3rem;
+}
+.location {
+    font-size: 15px;
+}
+.spot-images-div {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    
+    
+    /* border: solid green 1px; */
+
+}
+.preview-image-div {
+    width: 100%;
+    height: 100%;
+    /* margin: ; */
+    /* border: solid 1px blue; */
+    position: relative;
+    overflow: hidden;
+    
+}
+.preview-image{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    min-width: 100%;
+    min-height: 100%;
+}
+.other-images-div {
+ /* border: solid 1px red; */
+ 
+margin: 0;
+padding: 0;
+
+}
+.other-images-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+    list-style: none;
+   margin: 0; 
+    /* border: solid green 1px;  */
+
+}
+.other-image-div{
+  height:100%;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  padding-bottom: 2px;
+  /* padding-left: 1px; */
+  
+
+}
+.other-images{
+    position:relative;
+    /* top:50%;
+    left:50%;
+    transform: translate(-50%, -50%); */
+    min-width: 100%;
+    min-height: 100%;
+   max-width: 100%;
+   max-height: 100%;
+   padding-left: 2px;
+   
+   
+}
+.hostName-price-div {
+    
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    
+
+   margin-top: 1rem;
+    
+    border-bottom: 2px solid black;
+    height: max-content;
+    /* border-top: red 1px solid; */
+}
+
+
+.host-name {
+    position: relative;
+    margin-right: 1.5rem;
+    margin-bottom: 2rem;
+    top:0;
+    left: 0; 
+    height: max-content;
+    /* border: purple 1px solid; */
+    
+}
+.host{
+    position: relative;
+    margin: 0;
+    height: max-content;
+    width: 100%;
+}
+.description {
+    position: relative;
+    left: 0;
+    margin-top: 10px;
+
+}
+
+.price-star-rating-reserve-div {
+    position:relative;
+    right: 0;
+    top:0;
+   
+border: black solid 2px;
+border-radius: 5px;
+width: 100%;
+
+
+}
+.price-star-rating-outer-div {
+
+}
+.price-star-rating-div {
+    position:relative;
+    /* margin-left: 5px; */
+    top: 0; 
+    /* border: green 1px solid; */
+    padding: 10px;
+    height: max-content
+}
+.line-up-div{
+    margin: 0;
+    position:relative;
+    padding: 3px;
+    /* top: 2px;  */
+   /* border: red solid 1px; */
+   bottom: 0;
+}
+.price-night-div {
+    display: flex;
+    width: max-content;
+    padding: 0;
+    margin: 0;
+    bottom: 0;
+    position: relative;
+}
+
+.price {
+    margin: 0;
+    position:relative;
+    padding: 0;
+    top: 5px;
+    font-size: larger;
+    /* border:yellow 1px solid; */
+
+}
+.night{
+    position: relative;
+    /* bottom: 0; */
+    margin-bottom: 0;
+    left: 2px;
+    top: 9px;
+    bottom: 0;
+    /* font-weight: ; */
+}
+.star {
+    position: absolute;
+    margin: 0;
+    width: max-content;
+    bottom: 0;
+    right: 35%;
+    font-size: 12px;
+    font-weight: bold;
+}
+.num-reviews {
+    margin:0;
+    position: absolute;
+    width: max-content;
+    bottom: 0;
+    right:2px;
+    font-size: 12px;
+    font-weight: bold;
+    /* margin: 10px;  */
+}
+
+.hidden {
+    visibility: hidden;
+}
+.post-review-button {
+    list-style-type: none;
+    background-color: gray;
+    color: white;
+    box-shadow: 2px 2px 2px black;
+    margin-bottom: 10px;
+    margin-top: 10px;
+
+}.post-review-button:hover {
+    cursor: pointer;
+}
+.reviews-outer-div {
+/* border: 1px red solid; */
+    
+}
+.reveiws-container {
+    /* border: 1px purple solid;  */
+}
+.review-list {
+    /* border: red 1px solid; */
+}
+.avg-star{
+    /* border: blue 1px solid; */
+    height: max-content;
+}
+.avgstar-numreviews-div{
+    display: flex; 
+    flex-direction: row;
+    align-items: center;
+    /* border: green solid 1px; */
+    height: max-content;
+    width: 100%;
+    padding: 0; ;
+    margin-top: 10px;
+}
+.review-avg-star-rating{
+   all: unset;
+   font-weight: bold;
+   font-size: 20px;
+   
+}
+.review-num{
+    all: unset;
+    padding: 0; 
+    border: none;
+    margin-left: 20px; 
+    font-weight: bold;
+}
+.review-item-div {
+    all: unset; 
+    
+   
+}
+.review-first-name {
+    all: unset; 
+    top: 0; 
+    font-size: 15px;
+
+}
+.date-outer-div{
+    margin-top: 5px;
+}
+.date-div{
+    all: unset; 
+    font-size: 14px;
+    color: rgb(122, 122, 122);
+    
+
+}
+.review-outer-div{
+    margin-top: 10px; 
+}
+.review-div{
+    all: unset;
+    font-size: 13px;
+
+}
+.review-delete-button{
+    list-style-type: none;
+    background-color: gray;
+    color: white;
+    box-shadow: 2px 2px 2px black;
+    margin-top: 5px; 
+}
+.review-delete-button:hover{
+    cursor: pointer;
+}
+.hidden-gone{
+    display: none;
+}

@@ -18,11 +18,12 @@
     left: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.7);
+    
   }
   
   #modal-content {
-    height: 30%;
-    width: 50%;
+    height: max-content;
+    width: max-content;
     position: absolute;
     background-color: white;
     display: flex;
@@ -31,5 +32,11 @@
     align-items: center;
     border: solid grey 1px;
     border-radius: 5px;
+    top: 10%;
+    padding: 10px 10px; 
+
+  }
+  .confirm-delete{
+    width: max-content;
 
   }
