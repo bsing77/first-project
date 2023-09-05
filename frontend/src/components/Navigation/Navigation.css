@@ -10,6 +10,7 @@
     padding: 0; 
     border-bottom: solid lightgray 1px;
     list-style-type: none;
+    height: 5rem;
 }
 .navBar li a{
     position: relative;
@@ -43,7 +44,7 @@
   border: 1px solid #ccc;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  width: 7rem;
+  width: max-content;
   height: max-content;
   list-style-type: none;
   padding: 0;
@@ -66,4 +67,45 @@
 .nav-log-in:hover {
     cursor: pointer;
 
+}
+.new-spot-link {
+    font-size:12px;
+    color: rgb(1, 66, 112);
+
+    margin: 0 10px;
+}
+.new-spot-link:hover {
+    cursor: pointer;
+}
+.user-info-div {
+    all: unset;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.user-name-email-div {
+    margin: unset;
+    border-bottom: black solid 1px;
+    padding: 0; 
+}
+.user-email {
+    margin: unset;
+    margin: 0; 
+}
+.user-firstName {
+    margin: 0; 
+    padding: 0; 
+}
+.manage-user-div {
+    border-bottom: black 1px solid; 
+}
+.user-logout {
+    border-radius: 40px;
+    height: 2rem;
+    background-color: darkgray;
+    color: white;
+}
+.manage-spots-link:hover {
+    cursor: pointer;
 }

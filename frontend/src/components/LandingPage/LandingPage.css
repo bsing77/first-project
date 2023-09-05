@@ -1,3 +1,12 @@
+
+.outer-spot-div {
+/* border: 5px pink solid; */
+margin-left: 20px;
+margin-right: 20px;
+padding-left: 20px;
+padding-right: 20px;
+}
+
 .spot-ul {
     
     /* grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -7,17 +16,22 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     list-style: none;
-    grid-gap: 10px;
+    /* grid-gap: 10px; */
+    /* padding: 20px; */
+    /* border: 11px solid green; */
+    /* margin-left: 20px;
+    margin-right: 20px; */
   
    
-    border: solid red 1px; 
+    /* border: solid red 1px;  */
 }
 .spot-group{
+    all: unset;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   list-style: none;
   grid-gap: 10px;
-  border: solid green 1px; 
+  /* border: solid green 1px;  */
 
 }
 .spot-link {
@@ -29,33 +43,60 @@
    
     
     background-color: bisque;
-    border: solid black 1px;
+    /* border: solid black 1px; */
 }
 .spotItem {
     display: flex;
   flex-direction: column;
-  border: 1px solid #ccc;
-  padding: 0px 20px;
+  /* border: 1px solid #ccc; */
+  /* padding: 0px 20px; */
   border-radius: 5px;
   overflow: hidden;
   position: relative;
+  /* border: 1px solid red; */
 }
 
 .spot-details {
     position:relative;
     flex: 1;
+    margin-top: 5px;
+    /* border: green 1px solid; */
+    margin-top: 10px;
     
 }
-.spot-details p {
-    margin: 5px 0;
+.spot-location-star-div{
+   width: max-content;
+   height: max-content;
+    /* border: 1px solid purple */
+}
+.spot-location{
+    all:unset;
+    position:relative;
+    top: 0;
+    
+    /* border: 1px solid purple; */
 
 }
+/* .avg-star-rating-div{
+    all: unset;
+    border: pink 1px solid;
+    position: relative;
+    width: max-content;
+    right: 0;
+    left: 100%;
+    
+    
+   
+} */
+
 .avg-star-rating {
-    position: absolute;
-    top: 0; 
-    right:0;
-    margin:5px 0; 
+    all: unset;
+    position: relative;
+   
+  margin-left: 64px;
     text-align: right;
+    font-weight: bold;
+    /* border: pink 1px solid; */
 }
 .image-div {
     
@@ -65,12 +106,16 @@
     width: 100%;
     height: 225px; /* Set the desired height */
     overflow: hidden;
+    border-radius: 5px;
+    
    
 }
 .spot-preview-image {
     object-fit:fill; /* Resize the image while preserving its aspect ratio */
    max-width: 100%;
     height: 100%;
+    margin-top: 2rem;
+    border-radius: 5px;
     
 }
 
@@ -110,6 +155,22 @@
   .tooltip:hover::before {
     visibility: visible;
     opacity: 1;
+  }
+  .spot-price-night-div{
+    all: unset;
+    margin-top: 10px;
+    display: flex;
+    /* border: red 1px solid; */
+  }
+  .spot-price{
+    all:unset;
+    font-weight: bold;
+  }
+  .spot-night{
+    all: unset;
+    margin-left: 3px;
+/* border: blue 1px solid; */
+top: 100%;
   }
 
   @media (min-width: 1200px) {

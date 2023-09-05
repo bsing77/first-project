@@ -17,6 +17,14 @@ function SignupFormModal() {
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
+  useEffect(() => {
+    const signUpErrors={}
+    if(email && !email.includes("@")){
+      signUpErrors.email="Invalid email"
+    }
+    
+  })
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (password === confirmPassword) {
@@ -42,7 +50,7 @@ function SignupFormModal() {
       confirmPassword: "Confirm Password field must be the same as the Password field"
     });
   };
-
+//  console.log(errors)
   useEffect(() => {
     if(!email.length || username.length < 4  || firstName.length < 1 || lastName.length < 1 || password.length < 6) {
       setDisabled(true)
@@ -56,69 +64,77 @@ function SignupFormModal() {
       <h1>Sign Up</h1>
       <form onSubmit={handleSubmit}>
         <label>
-          Email
+          
           <input
             type="text"
             value={email}
+            placeholder="Email"
             onChange={(e) => setEmail(e.target.value)}
             required
           />
+          
+         
         </label>
-        {errors.email && <p>{errors.email}</p>}
+        {errors.email && <p className="errors">{errors.email}</p>}
         <label>
-          Username
+         
           <input
             type="text"
+            placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
           />
         </label>
-        {errors.username && <p>{errors.username}</p>}
+        {errors.username && <p className='errors'>{errors.username}</p>}
         <label>
-          First Name
+         
           <input
             type="text"
             value={firstName}
+            placeholder="Fist Name"
             onChange={(e) => setFirstName(e.target.value)}
             required
           />
         </label>
-        {errors.firstName && <p>{errors.firstName}</p>}
+        {errors.firstName && <p className='errors'>{errors.firstName}</p>}
         <label>
-          Last Name
+         
           <input
             className ="input"
             type="text"
+            placeholder="Last Name"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
             required
           />
         </label>
-        {errors.lastName && <p>{errors.lastName}</p>}
+        {errors.lastName && <p className='errors'>{errors.lastName}</p>}
         <label>
-          Password
+         
           <input
             type="password"
             value={password}
+            placeholder="Password"
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </label>
-        {errors.password && <p>{errors.password}</p>}
+        {errors.password && <p className="errors">{errors.password}</p>}
         <label>
-          Confirm Password
+          
           <input
             type="password"
+            placeholder="Confirm Password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
         </label>
         {errors.confirmPassword && (
-          <p>{errors.confirmPassword}</p>
+          <p className='errors'>{errors.confirmPassword}</p>
         )}
-        <button type="submit" disabled={disabled}className ="button">Sign Up</button>
+        <button type="submit" disabled={disabled}className ={`button ${disabled? "grey": " " }`}>Sign Up</button>
       </form>
     </div>
   );

@@ -9,8 +9,21 @@ function LoginFormModal() {
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [isLoaded,setIsLoaded] = useState(false)
+  const[enabled, setEnabled] = useState(false)
+  const [isDemoUser, setIsDemoUser] = useState(false)
   
   const { closeModal } = useModal();
+
+  useEffect(() => {
+    const logInErrors = {}
+    if(!credential){
+      logInErrors.credential="Email or username is required"
+    };
+    if(!password){
+      logInErrors.password="Password is"
+    }
+  })
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -19,26 +32,37 @@ function LoginFormModal() {
       .then(closeModal)
       .catch(async (res) => {
         const data = await res.json();
-        if (data && data.errors) {
-          setErrors(data.errors);
+        if (!data.ok) {
+          setErrors({credential:'The provided credentials were invalid'});
+          // console.log(errors, 'ERRORS')
         }
+        
       });
   };
 
-  const demoUser = () => {
-    setCredential('Demo-lition'); 
-    setPassword('password'); 
-    return dispatch(sessionActions.login({credential,password}))
+
+  const demoUser = async() => {
+    setCredential('Demo-lition');
+    setPassword('password')
+    
+
   }
 
 
-
+  
   
 
- const isCredentialsValid = credential.length >=4; 
+ const isCredentialsValid = credential.length >=4 
  const isPasswordValid = password.length >= 6; 
  const isSubmitEnabled =isCredentialsValid && isPasswordValid
-
+ 
+ useEffect (() => {
+  if(isSubmitEnabled === true){
+    setEnabled(true)
+  } else {
+    setEnabled(false)
+  }
+ },[enabled, isSubmitEnabled])
   return (
     <>
       <h1 className='login'>Log In</h1>
@@ -54,6 +78,8 @@ function LoginFormModal() {
           />
         </label>
         <label>
+          {/* {errors.username && (<p>{errors.username}</p>)}
+          {errors.email && (<p>{errors.email}</p>)} */}
          
           <input
             type="password"
@@ -64,9 +90,9 @@ function LoginFormModal() {
           />
         </label>
         {errors.credential && (
-          <p>{errors.credential}</p>
+          <p className='errors'>{errors.credential}</p>
         )}
-        <button  className="button"type="submit" disabled={!isSubmitEnabled}  >Log In</button>
+        <button  type="submit" disabled={!isSubmitEnabled}  className={`button ${enabled? '': 'grey'}`} >Log In</button>
         <li className="demo-user" onClick={demoUser} > Demo User</li>
       </form>
     </>

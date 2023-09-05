@@ -1,6 +1,6 @@
 
 form {
-
+    width: max-content;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -11,15 +11,29 @@ label {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    align-items: left;
 }
 .logIn-button {
-    background-color: red;
+    background-color:  rgb(238, 90, 90);
     
 }
 .demo-user {
+
     list-style-type: none;
     margin: 10px;
     text-decoration: underline;
+    color:rgb(87, 128, 150);
 
+}
+.demo-user:hover {
+    cursor: pointer;
+}
+.grey{
+    background-color: white;
+    color: grey;
+    border: grey 1px solid; 
+    box-shadow: 5px 5px 2px grey;
+}
+.errors{
+    color: red;
 }

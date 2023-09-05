@@ -1,0 +1,159 @@
+
+
+.outermost-div {
+      display: flex;
+      height: max-content;
+      
+      justify-content: center;
+}
+
+
+.header-div {
+    
+   
+   justify-content: center;
+   align-items: center;
+/*    
+    border: solid blue 1px;  */
+}
+.h1 {
+    position:relative;
+    ;
+}
+/* .form-start >input {
+    width: 100%;
+    border: pink solid 4px;
+} */
+.form-start {
+    all: unset;
+    /* border: purple 1px solid; */
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    
+    /* align-items: center;
+    justify-content: center; */
+}
+
+.create-new-spot-outer-div {
+    display: block;
+    justify-content: center;
+    /* border: 3px solid  rgb(238, 90, 90); */
+    width: 50%;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto; 
+    height: max-content;
+}
+
+.create-new-spot-inner-div {
+    /* margin: 20px; */
+    margin-left: 25px;
+    margin-right: 25px;
+    /* border: 5px green solid; */
+
+}
+
+
+.spot-location-div {
+   padding-bottom: 20px;
+    border-bottom: 2px solid black;
+}
+.label{
+    all: unset;
+}
+.input {
+    all: unset;
+    background-color: rgb(191, 208, 224);
+    border: black solid 1px;
+    margin: unset;
+    padding: unset;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.city-state-div{
+    margin: unset;
+    /* margin-right: 5px; */
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+
+}
+
+.state {
+    margin-left: 10px;
+}
+
+
+.lat-lng {
+    display: flex;
+}
+.lat-long{
+    width: 100%;
+}
+.lat{
+    margin-right: 5px;
+}
+.lng{
+    position: relative;
+    margin-left:5px;
+    right: 0;
+    width: 98%;
+}
+.descript{
+    height: 10rem;
+}
+.descript::placeholder{
+    position: relative;
+    text-align:start;
+
+}
+.description-div {
+    padding-bottom: 20px;
+    border-bottom: solid 2px black; 
+}
+.price{
+    width: 98%;
+    margin-left: 1.5px;
+}
+
+
+
+
+.new-spot-image-div{
+    all: unset;
+    display: block; 
+    padding-bottom: 20px;
+    border-bottom: solid 2px black;
+}
+.create-img-div{
+    /* border: 5px green solid; */
+    height: max-content;
+}
+.create-button-div {
+    all: unset;
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    /* border: 1px red solid; */
+    
+}
+.create-button {
+    background-color: rgb(238, 90, 90);
+    color: white;  
+    box-shadow: 2px 2px 2px black;
+    margin: 20px; 
+    bottom: 100%; 
+}
+.create-button:hover {
+    cursor: pointer;
+}
+.title-div{
+    padding-bottom: 20px;
+    border-bottom: solid 2px black;
+}
+.price-div {
+    padding-bottom: 20px;
+    border-bottom: solid 2px black;
+}
+
